@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{ title }}</h1>
+      <button @click="getContent">Get Content</button>
+      <div v-if="showContent">
+        <p>Users:</p>
+        <ul>
+          <li v-for="(user, index) in users" :key="user.id">
+            <p>{{ index }} - {{ user.name }}</p>
+            <span>{{ user.email }} - {{ user.age }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          title: 'DATA',
+          showContent: false,
+          user: {
+            name: 'Sergey',
+            email: 'info@tcode.ru'
+          },
+          users: [
+            { id: 123, name: 'jack', email: 'info@tcode.ru', age: 22 },
+            { id: 122, name: 'alex', email: 'alex@tcode.ru', age: 24 },
+            { id: 121, name: 'ivan', email: 'ivan@tcode.ru', age: 28 }
+          ]
+        },
+        methods: {
+          getContent() {
+            this.showContent = !this.showContent
+            console.log(this.user.name)
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
