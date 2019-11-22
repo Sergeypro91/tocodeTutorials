@@ -1,7 +1,16 @@
 <template>
   <!-- note list -->
   <div class="notes">
-    <div class="note" :class="{ full: !grid }" v-for="(note, index) in notes" :key="note.idNote">
+    <div
+      class="note"
+      :class="{
+        full: !grid,
+        priority: note.radioState == 'priority',
+        important: note.radioState == 'important'
+      }"
+      v-for="(note, index) in notes"
+      :key="note.idNote"
+    >
       <div class="note-header" :class="{ full: !grid }">
         <p>{{ note.title }}</p>
         <p style="cursor: pointer;" @click="removeNote(note.idNote)">x</p>
@@ -45,9 +54,11 @@ export default {
 }
 .note {
   width: 48%;
+  min-height: 156px;
   padding: 18px 20px;
   margin-bottom: 20px;
   background-color: #fff;
+  border-radius: 4px;
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.02);
   transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
   &:hover {
@@ -59,10 +70,25 @@ export default {
     width: 100%;
     text-align: center;
   }
+  &.priority {
+    background: #fdd835;
+    span {
+      color: #777777;
+    }
+  }
+  &.important {
+    background: #d40000;
+    p {
+      color: #ffffff;
+    }
+    span {
+      color: #bbbbbb;
+    }
+  }
 }
 .note-header {
   display: flex;
-  align-self: center;
+  align-items: center;
   justify-content: space-between;
   &.full {
     justify-content: center;

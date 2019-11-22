@@ -4,6 +4,8 @@
       <section>
         <div class="container">
           <div id="app">
+            <h1 class="title">{{ title }}</h1>
+
             <!-- message -->
             <message v-if="message" :message="message" />
 
@@ -12,10 +14,14 @@
 
             <div class="note-header" style="margin: 36px 0;">
               <!-- title -->
-              <h1>{{ title }}</h1>
+              <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="search = $event" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="search = $event"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -63,7 +69,12 @@
             </div>
 
             <!-- note list -->
-            <notes :notes="notesFilter" :grid="grid" @remove="removeNote" style="margin: 36px 0;" />
+            <notes
+              :notes="notesFilter"
+              :grid="grid"
+              @remove="removeNote"
+              style="margin: 36px 0;"
+            />
           </div>
         </div>
       </section>
@@ -91,28 +102,36 @@ export default {
       grid: true,
       search: '',
       placeholder: '',
+      idNouteCount: 3,
       note: {
         title: '',
-        descr: ''
+        descr: '',
+        radioState: '',
+        standart: 'standart',
+        priority: 'priority',
+        important: 'important'
       },
       notes: [
         {
           title: 'Firs Note',
           descr: 'Description for first note',
           date: new Date(Date.now()).toLocaleString(),
-          idNote: 0
+          idNote: 0,
+          radioState: 'standart'
         },
         {
           title: 'Second Note',
           descr: 'Description for second note',
           date: new Date(Date.now()).toLocaleString(),
-          idNote: 1
+          idNote: 1,
+          radioState: 'standart'
         },
         {
           title: 'Third Note',
           descr: 'Description for third note',
           date: new Date(Date.now()).toLocaleString(),
-          idNote: 2
+          idNote: 2,
+          radioState: 'standart'
         }
       ]
     }
@@ -136,33 +155,34 @@ export default {
   },
   methods: {
     addNote() {
-      let { title, descr } = this.note
-      let idNote = 0
-
-      if (this.notes.length > 0) {
-        idNote = this.notes[this.notes.length - 1].idNote + 1
-      }
+      let { title, descr, radioState } = this.note
 
       if (title === '') {
         this.message = 'Title can`t be blank!'
         return false
       }
 
+      if (radioState === '') {
+        radioState = this.note.standart
+      }
+
       this.notes.push({
         title,
         descr,
-        idNote,
-        date: new Date(Date.now()).toLocaleString()
+        date: new Date(Date.now()).toLocaleString(),
+        idNote: this.idNouteCount++,
+        radioState
       })
 
       this.note.title = ''
       this.note.descr = ''
+      this.note.radioState = ''
 
       this.message = null
     },
     removeNote(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
-      // console.log(notesArrId)
+
       this.notes.splice(notesArrId, 1)
     }
   }
