@@ -11,9 +11,21 @@
       v-for="(note, index) in notes"
       :key="note.idNote"
     >
+      <!-- v-click-outside="outside" -->
       <div class="note-header" :class="{ full: !grid }">
-        <p>{{ note.title }}</p>
+        <p @click="editTitle(note.idNote)">{{ note.title }}</p>
         <p style="cursor: pointer;" @click="removeNote(note.idNote)">x</p>
+      </div>
+      <div class="edit-title" :class="{ edittitle: note.edit}">
+        <input
+          type="text"
+          class="edit-title__text"
+          :placeholder="'Edit title:'"
+          v-focus
+          @keydown.esc="escEdit(note.idNote)"
+          @keydown.enter="enterEdit(note.idNote)"
+          v-model="note.newTitle"
+        />
       </div>
       <div class="note-body">
         <p>{{ note.descr }}</p>
@@ -39,6 +51,38 @@ export default {
     removeNote(index) {
       console.log(`Note id - ${index} removed`)
       this.$emit('remove', index)
+    },
+    editTitle(index) {
+      console.log(`Edit - ${index}`)
+      this.$emit('edit', index)
+    },
+    escEdit(index) {
+      console.log(`Exit from Edit - ${index}`)
+      this.$emit('esc', index)
+    },
+    enterEdit(index) {
+      console.log(`Enter date to Edit - ${index}`)
+      this.$emit('enter', index)
+    },
+    outside(e) {
+      console.log(e)
+    }
+  },
+  directives: {
+    'click-outside': {
+      bind(el, binding, vNode) {
+        // Define Handler and cache it on the element
+        const bubble = binding.modifiers.bubble
+        const handler = e => {
+          if (bubble || (!el.contains(e.target) && el !== e.target)) {
+            binding.value(e)
+          }
+        }
+        el.__vueClickOutside__ = handler
+
+        // add Event Listeners
+        document.addEventListener('click', handler)
+      }
     }
   }
 }
@@ -72,21 +116,27 @@ export default {
   }
   &.priority {
     background: #fdd835;
+    input {
+      border: #777777 solid 1px;
+    }
     span {
       color: #777777;
     }
   }
   &.important {
     background: #d40000;
+    input,
+    input::placeholder,
     p {
-      color: #ffffff;
+      color: #eeeeee;
     }
     span {
       color: #bbbbbb;
     }
   }
 }
-.note-header {
+.note-header,
+.note-header--edit {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,6 +155,7 @@ export default {
   p {
     font-size: 22px;
     color: #402caf;
+    cursor: pointer;
   }
   svg {
     margin-right: 12px;
@@ -123,5 +174,16 @@ export default {
 span {
   font-size: 14px;
   color: #999;
+}
+.edit-title {
+  display: none;
+  margin-top: 20px;
+}
+.edittitle {
+  display: flex;
+}
+.edit-title__text {
+  margin: 0;
+  background: none;
 }
 </style>

@@ -17,11 +17,7 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search
-                :value="search"
-                placeholder="Find your note"
-                @search="search = $event"
-              />
+              <search :value="search" placeholder="Find your note" @search="search = $event" />
 
               <!-- icon controls -->
               <div class="icons">
@@ -73,6 +69,9 @@
               :notes="notesFilter"
               :grid="grid"
               @remove="removeNote"
+              @edit="editTitle"
+              @esc="escEdit"
+              @enter="enterEdit"
               style="margin: 36px 0;"
             />
           </div>
@@ -105,6 +104,7 @@ export default {
       idNouteCount: 3,
       note: {
         title: '',
+        newTitle: '',
         descr: '',
         radioState: '',
         standart: 'standart',
@@ -114,23 +114,29 @@ export default {
       notes: [
         {
           title: 'Firs Note',
+          newTitle: '',
           descr: 'Description for first note',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 0,
+          edit: false,
           radioState: 'standart'
         },
         {
           title: 'Second Note',
+          newTitle: '',
           descr: 'Description for second note',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 1,
+          edit: false,
           radioState: 'standart'
         },
         {
           title: 'Third Note',
+          newTitle: '',
           descr: 'Description for third note',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 2,
+          edit: false,
           radioState: 'standart'
         }
       ]
@@ -168,13 +174,16 @@ export default {
 
       this.notes.push({
         title,
+        newTitle: '',
         descr,
         date: new Date(Date.now()).toLocaleString(),
         idNote: this.idNouteCount++,
-        radioState
+        radioState,
+        edit: false
       })
 
       this.note.title = ''
+      this.note.newTitle = ''
       this.note.descr = ''
       this.note.radioState = ''
 
@@ -184,9 +193,50 @@ export default {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes.splice(notesArrId, 1)
+    },
+    editTitle(index) {
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+    },
+    escEdit(index) {
+      console.log('Exit from Edit')
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].newTitle = ''
+      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+    },
+    enterEdit(index) {
+      console.log('Enter Edit to data')
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].title = this.notes[notesArrId].newTitle
+      this.notes[notesArrId].newTitle = ''
+      this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
+      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+    }
+  },
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus()
+      }
     }
   }
 }
 </script>
 
-<style></style>
+<style lang="scss">
+p {
+  word-break: break-word;
+}
+input,
+textarea {
+  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+input:focus,
+textarea:focus {
+  border: #494ce8 solid 1px;
+  transition-delay: 0s !important;
+}
+</style>

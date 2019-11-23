@@ -9,30 +9,15 @@
       <div class="radio">
         <div class="radio-child">
           <label>Standart</label>
-          <input
-            type="radio"
-            name="radioType"
-            v-model="note.radioState"
-            :value="note.standart"
-          />
+          <input type="radio" name="radioType" v-model="note.radioState" :value="note.standart" />
         </div>
         <div class="radio-child">
           <label>Priority</label>
-          <input
-            type="radio"
-            name="radioType"
-            v-model="note.radioState"
-            :value="note.priority"
-          />
+          <input type="radio" name="radioType" v-model="note.radioState" :value="note.priority" />
         </div>
         <div class="radio-child">
           <label>Important</label>
-          <input
-            type="radio"
-            name="radioType"
-            v-model="note.radioState"
-            :value="note.important"
-          />
+          <input type="radio" name="radioType" v-model="note.radioState" :value="note.important" />
         </div>
       </div>
     </div>
