@@ -1,6 +1,6 @@
 <template>
   <!-- note list -->
-  <div class="notes">
+  <div class="notes" :class="{ wide: !grid}">
     <div
       class="note"
       :class="{
@@ -14,21 +14,33 @@
       <!-- v-click-outside="outside" -->
       <div class="note-header" :class="{ full: !grid }">
         <p @click="editTitle(note.idNote)">{{ note.title }}</p>
-        <p style="cursor: pointer;" @click="removeNote(note.idNote)">x</p>
+        <p @click="removeNote(note.idNote)">x</p>
       </div>
-      <div class="edit-title" :class="{ edittitle: note.edit}">
+      <div class="edit-title" :class="{ edittitle: note.edit.title}">
         <input
           type="text"
           class="edit-title__text"
           :placeholder="'Edit title:'"
-          v-focus
           @keydown.esc="escEdit(note.idNote)"
           @keydown.enter="enterEdit(note.idNote)"
           v-model="note.newTitle"
         />
       </div>
       <div class="note-body">
-        <p>{{ note.descr }}</p>
+        <p
+          @click="editDescr(note.idNote)"
+          :class="{ hideOldDescr: note.edit.descr}"
+        >{{ note.descr }}</p>
+
+        <textarea
+          rows="4"
+          v-model="note.newDescr"
+          :placeholder="'Edit description:'"
+          class="edit-descr"
+          :class="{ editdescr: note.edit.descr}"
+          @keydown.esc="escEditDescr(note.idNote)"
+          @keydown.enter="enterEditDescr(note.idNote)"
+        ></textarea>
         <span>{{ note.date }}</span>
       </div>
     </div>
@@ -53,16 +65,28 @@ export default {
       this.$emit('remove', index)
     },
     editTitle(index) {
-      console.log(`Edit - ${index}`)
+      console.log(`Ready to edit title - ${index}`)
       this.$emit('edit', index)
     },
     escEdit(index) {
-      console.log(`Exit from Edit - ${index}`)
+      console.log(`Exit from title edit - ${index}`)
       this.$emit('esc', index)
     },
     enterEdit(index) {
       console.log(`Enter date to Edit - ${index}`)
       this.$emit('enter', index)
+    },
+    editDescr(index) {
+      console.log(`Ready to edit description - ${index}`)
+      this.$emit('editDescr', index)
+    },
+    escEditDescr(index) {
+      console.log(`Exit from description edit - ${index}`)
+      this.$emit('escDescr', index)
+    },
+    enterEditDescr(index) {
+      console.log(`Enter date to Description - ${index}`)
+      this.$emit('enterDescr', index)
     },
     outside(e) {
       console.log(e)
@@ -90,15 +114,21 @@ export default {
 
 <style lang="scss">
 .notes {
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: inline-block;
+  column-count: 2;
   padding: 40px 0;
+  &.wide {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 }
 .note {
-  width: 48%;
+  width: 100%;
   min-height: 156px;
+  break-inside: avoid;
+  page-break-inside: avoid;
   padding: 18px 20px;
   margin-bottom: 20px;
   background-color: #fff;
@@ -130,6 +160,9 @@ export default {
     p {
       color: #eeeeee;
     }
+    textarea {
+      color: #fff;
+    }
     span {
       color: #bbbbbb;
     }
@@ -156,6 +189,10 @@ export default {
     font-size: 22px;
     color: #402caf;
     cursor: pointer;
+    align-self: flex-start;
+    &:nth-child(2) {
+      margin-left: 20px;
+    }
   }
   svg {
     margin-right: 12px;
@@ -175,15 +212,21 @@ span {
   font-size: 14px;
   color: #999;
 }
-.edit-title {
+.edit-title,
+.edit-descr,
+.hideOldDescr {
   display: none;
-  margin-top: 20px;
 }
-.edittitle {
+.edittitle,
+.editdescr {
   display: flex;
+  margin-top: 20px;
 }
 .edit-title__text {
   margin: 0;
+  background: none;
+}
+.edit-descr {
   background: none;
 }
 </style>

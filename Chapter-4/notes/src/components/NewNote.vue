@@ -58,6 +58,7 @@ export default {
 }
 .new-note__top_title {
   flex-grow: 8;
+  width: 100%;
 }
 .radio {
   display: flex;
@@ -71,6 +72,7 @@ export default {
   margin-left: 30px;
   & input {
     height: 21px;
+    cursor: pointer;
   }
 }
 </style>

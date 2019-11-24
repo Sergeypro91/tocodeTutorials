@@ -70,8 +70,11 @@
               :grid="grid"
               @remove="removeNote"
               @edit="editTitle"
+              @editDescr="editDescr"
               @esc="escEdit"
+              @escDescr="escDescr"
               @enter="enterEdit"
+              @enterDescr="enterDescr"
               style="margin: 36px 0;"
             />
           </div>
@@ -101,7 +104,7 @@ export default {
       grid: true,
       search: '',
       placeholder: '',
-      idNouteCount: 3,
+      idNouteCount: 6,
       note: {
         title: '',
         newTitle: '',
@@ -115,28 +118,83 @@ export default {
         {
           title: 'Firs Note',
           newTitle: '',
+          newDescr: '',
           descr: 'Description for first note',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 0,
-          edit: false,
+          edit: {
+            title: false,
+            descr: false
+          },
           radioState: 'standart'
         },
         {
           title: 'Second Note',
           newTitle: '',
-          descr: 'Description for second note',
+          newDescr: '',
+          descr:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique facilis dolor, aperiam eveniet assumenda cumque.',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 1,
-          edit: false,
-          radioState: 'standart'
+          edit: {
+            title: false,
+            descr: false
+          },
+          radioState: 'priority'
         },
         {
           title: 'Third Note',
           newTitle: '',
-          descr: 'Description for third note',
+          descr:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur possimus rem officia. Nesciunt aliquam odit reiciendis fugit reprehenderit animi inventore molestias recusandae corporis sit est maxime quos pariatur beatae debitis facere consectetur vitae libero odio in, aliquid quidem, ipsum iure? Autem ut nam fuga voluptatum sit molestiae sint obcaecati eius minima omnis in voluptates, quos corporis aut iusto expedita cumque odit molestias magni sapiente quas eaque deleniti inventore tempore! Pariatur a quaerat enim perferendis, aspernatur porro et nobis. Sint odit quasi, voluptatibus sit, sequi esse sapiente iusto consectetur accusamus quia ratione explicabo perferendis cupiditate totam? Optio voluptatem necessitatibus architecto.',
+          newDescr: '',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 2,
-          edit: false,
+          edit: {
+            title: false,
+            descr: false
+          },
+          radioState: 'standart'
+        },
+        {
+          title: 'Fourth Note',
+          newTitle: '',
+          descr:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum quos ducimus pariatur quo eius numquam sapiente doloremque asperiores placeat. Ea accusamus architecto cumque nisi qui officiis? Cumque temporibus nulla iste alias dolorum. Vel quod minus aperiam voluptates. Nemo reprehenderit et labore, sunt neque ullam soluta id, sapiente harum eos provident.',
+          newDescr: '',
+          date: new Date(Date.now()).toLocaleString(),
+          idNote: 3,
+          edit: {
+            title: false,
+            descr: false
+          },
+          radioState: 'important'
+        },
+        {
+          title: 'Fifth Note',
+          newTitle: '',
+          descr: 'Description for third note',
+          newDescr: '',
+          date: new Date(Date.now()).toLocaleString(),
+          idNote: 4,
+          edit: {
+            title: false,
+            descr: false
+          },
+          radioState: 'standart'
+        },
+        {
+          title: 'Sixth Note',
+          newTitle: '',
+          descr:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quis magni labore sunt deserunt incidunt odit fuga. Ad nisi doloribus quasi quidem vero ab laudantium!',
+          newDescr: '',
+          date: new Date(Date.now()).toLocaleString(),
+          idNote: 5,
+          edit: {
+            title: false,
+            descr: false
+          },
           radioState: 'standart'
         }
       ]
@@ -176,15 +234,20 @@ export default {
         title,
         newTitle: '',
         descr,
+        newDescr: '',
         date: new Date(Date.now()).toLocaleString(),
         idNote: this.idNouteCount++,
         radioState,
-        edit: false
+        edit: {
+          title: false,
+          descr: false
+        }
       })
 
       this.note.title = ''
       this.note.newTitle = ''
       this.note.descr = ''
+      this.note.newDescr = ''
       this.note.radioState = ''
 
       this.message = null
@@ -197,23 +260,56 @@ export default {
     editTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
-      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+      this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
     },
     escEdit(index) {
-      console.log('Exit from Edit')
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
+      this.message = ''
       this.notes[notesArrId].newTitle = ''
-      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+      this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
     },
     enterEdit(index) {
-      console.log('Enter Edit to data')
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
-      this.notes[notesArrId].title = this.notes[notesArrId].newTitle
-      this.notes[notesArrId].newTitle = ''
-      this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
-      this.notes[notesArrId].edit = !this.notes[notesArrId].edit
+      if (this.notes[notesArrId].newTitle === '') {
+        this.message = 'Title can`t be blank!'
+      } else {
+        this.message = ''
+        this.notes[notesArrId].title = this.notes[notesArrId].newTitle
+        this.notes[notesArrId].newTitle = ''
+        this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
+        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+      }
+    },
+    editDescr(index) {
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+    },
+    escDescr(index) {
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.message = ''
+      this.notes[notesArrId].newDescr = ''
+      this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+    },
+    enterDescr(index) {
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      if (
+        this.notes[notesArrId].newDescr === '' ||
+        this.notes[notesArrId].newDescr === '\n'
+      ) {
+        this.message = 'Description can`t be blank!'
+        this.notes[notesArrId].newDescr = ''
+      } else {
+        this.message = ''
+        this.notes[notesArrId].descr = this.notes[notesArrId].newDescr
+        this.notes[notesArrId].newDescr = ''
+        this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
+        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+      }
     }
   },
   directives: {
@@ -238,5 +334,30 @@ input:focus,
 textarea:focus {
   border: #494ce8 solid 1px;
   transition-delay: 0s !important;
+}
+@media screen and (max-width: 768px) {
+  .new-note__top {
+    flex-direction: column;
+  }
+  .radio-child {
+    margin: 0;
+  }
+  .notes {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .wrapper__search {
+    margin: 0 0 0 20px !important;
+  }
+  .icons {
+    display: none;
+  }
+}
+@media screen and (max-width: 320px) {
+  .container {
+    padding: 0 10px;
+  }
 }
 </style>

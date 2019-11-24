@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <p>{{ message }}</p>
+    <div>{{ message }}</div>
   </div>
 </template>
 
@@ -17,10 +17,17 @@ export default {
 
 <style lang="scss" scoped>
 .message {
-  text-align: center;
-  padding: 20px;
-}
-p {
-  color: #ca3838;
+  display: flex;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  div {
+    margin: auto;
+    color: white;
+    background: #ff5252;
+    padding: 16px;
+    border-radius: 4px;
+  }
 }
 </style>

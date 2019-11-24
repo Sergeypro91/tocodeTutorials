@@ -56,6 +56,10 @@ svg {
 /* Search */
 .wrapper__search {
   position: relative;
+  width: 100%;
+  min-width: 100px;
+  max-width: 400px;
+  margin: 0 20px;
 }
 .search {
   top: 0px;
@@ -76,7 +80,7 @@ input {
   border-radius: 30px;
   color: #909399;
   font-size: 16px;
-  min-width: 400px;
+  width: 100%;
   height: auto;
 }
 </style>
