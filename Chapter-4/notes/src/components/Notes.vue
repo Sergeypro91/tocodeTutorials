@@ -101,15 +101,12 @@ export default {
       this.$emit('clickOutside', index)
     },
     changeToStandart(index) {
-      console.log('changeToStandart')
       this.$emit('changeToStandart', index)
     },
     changeToPriority(index) {
-      console.log('changeToPriority')
       this.$emit('changeToPriority', index)
     },
     changeToImportant(index) {
-      console.log('changeToImportant')
       this.$emit('changeToImportant', index)
     }
   },

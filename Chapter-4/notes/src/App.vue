@@ -372,27 +372,24 @@ export default {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
+          this.notes[i].newDescr = ''
+          this.notes[i].newTitle = ''
         }
-        this.message = ''
-        this.notes[this.selectedNote].newDescr = ''
-        this.notes[this.selectedNote].newTitle = ''
+
         this.selectedNote = ''
       }
     },
     changeToStandart(index) {
-      console.log(index)
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes[notesArrId].radioState = 'standart'
     },
     changeToPriority(index) {
-      console.log('changeToPriority')
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes[notesArrId].radioState = 'priority'
     },
     changeToImportant(index) {
-      console.log('changeToImportant')
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes[notesArrId].radioState = 'important'
