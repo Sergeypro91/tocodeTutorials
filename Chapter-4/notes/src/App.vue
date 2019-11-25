@@ -17,7 +17,11 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="search = $event" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="search = $event"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -75,6 +79,7 @@
               @escDescr="escDescr"
               @enter="enterEdit"
               @enterDescr="enterDescr"
+              @clickOutside="clickOutside"
               style="margin: 36px 0;"
             />
           </div>
@@ -105,6 +110,8 @@ export default {
       search: '',
       placeholder: '',
       idNouteCount: 6,
+      clickCord: '',
+      clickCounter: '',
       note: {
         title: '',
         newTitle: '',
@@ -309,6 +316,22 @@ export default {
         this.notes[notesArrId].newDescr = ''
         this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+      }
+    },
+    clickOutside(index) {
+      if (this.clickCord === index) {
+        this.clickCounter++
+      } else {
+        this.clickCord = index
+        this.clickCounter = ''
+      }
+
+      if (this.clickCounter === this.notes.length - 1) {
+        for (var i = 0; i < this.notes.length; i++) {
+          this.notes[i].edit.title = false
+          this.notes[i].edit.descr = false
+        }
+        this.message = ''
       }
     }
   },

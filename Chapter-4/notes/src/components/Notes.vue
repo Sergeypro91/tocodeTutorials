@@ -1,6 +1,6 @@
 <template>
   <!-- note list -->
-  <div class="notes" :class="{ wide: !grid}">
+  <div class="notes" :class="{ wide: !grid }">
     <div
       class="note"
       :class="{
@@ -10,13 +10,14 @@
       }"
       v-for="(note, index) in notes"
       :key="note.idNote"
+      v-click-outside="outside"
     >
-      <!-- v-click-outside="outside" -->
+      <!--  -->
       <div class="note-header" :class="{ full: !grid }">
         <p @click="editTitle(note.idNote)">{{ note.title }}</p>
         <p @click="removeNote(note.idNote)">x</p>
       </div>
-      <div class="edit-title" :class="{ edittitle: note.edit.title}">
+      <div class="edit-title" :class="{ edittitle: note.edit.title }">
         <input
           type="text"
           class="edit-title__text"
@@ -29,15 +30,17 @@
       <div class="note-body">
         <p
           @click="editDescr(note.idNote)"
-          :class="{ hideOldDescr: note.edit.descr}"
-        >{{ note.descr }}</p>
+          :class="{ hideOldDescr: note.edit.descr }"
+        >
+          {{ note.descr }}
+        </p>
 
         <textarea
           rows="4"
           v-model="note.newDescr"
           :placeholder="'Edit description:'"
           class="edit-descr"
-          :class="{ editdescr: note.edit.descr}"
+          :class="{ editdescr: note.edit.descr }"
           @keydown.esc="escEditDescr(note.idNote)"
           @keydown.enter="enterEditDescr(note.idNote)"
         ></textarea>
@@ -88,24 +91,25 @@ export default {
       console.log(`Enter date to Description - ${index}`)
       this.$emit('enterDescr', index)
     },
-    outside(e) {
-      console.log(e)
+    outside(index) {
+      console.log('Click outside')
+      this.$emit('clickOutside', index)
     }
   },
   directives: {
     'click-outside': {
-      bind(el, binding, vNode) {
-        // Define Handler and cache it on the element
-        const bubble = binding.modifiers.bubble
-        const handler = e => {
-          if (bubble || (!el.contains(e.target) && el !== e.target)) {
-            binding.value(e)
+      bind: function(el, binding, vnode) {
+        el.clickOutsideEvent = function(event) {
+          // here I check that click was outside the el and his childrens
+          if (!(el == event.target || el.contains(event.target))) {
+            // and if it did, call method provided in attribute value
+            vnode.context[binding.expression](event)
           }
         }
-        el.__vueClickOutside__ = handler
-
-        // add Event Listeners
-        document.addEventListener('click', handler)
+        document.body.addEventListener('click', el.clickOutsideEvent)
+      },
+      unbind: function(el) {
+        document.body.removeEventListener('click', el.clickOutsideEvent)
       }
     }
   }
