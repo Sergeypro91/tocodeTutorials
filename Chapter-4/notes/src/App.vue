@@ -112,6 +112,7 @@ export default {
       idNouteCount: 6,
       clickCord: '',
       clickCounter: '',
+      selectedNote: '',
       note: {
         title: '',
         newTitle: '',
@@ -267,7 +268,17 @@ export default {
     editTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
-      this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+      if (this.selectedNote === '') {
+        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.selectedNote = index
+      } else if (this.selectedNote === index) {
+        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.selectedNote = ''
+      } else if (this.selectedNote >= 0) {
+        this.notes[this.selectedNote].edit.title = false
+        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.selectedNote = index
+      }
     },
     escEdit(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
