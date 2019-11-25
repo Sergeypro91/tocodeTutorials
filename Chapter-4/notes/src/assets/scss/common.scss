@@ -1,14 +1,24 @@
 // обновленные стандартные стили
 
 // Заголовок
-@import "common/title";
+@import 'common/title';
 // Контролы
-@import "common/controls";
+@import 'common/controls';
 // Линки
-@import "common/link";
+@import 'common/link';
 // Кнопки
-@import "common/buttons";
+@import 'common/buttons';
 // Меню
-@import "common/navbar";
+@import 'common/navbar';
 // Таблица
-@import "common/table";
+@import 'common/table';
+// App component style
+@import 'common/app';
+// Message component style
+@import 'common/message';
+// NewNote component style
+@import 'common/newnote';
+// Notes component style
+@import 'common/notes';
+// Search component style
+@import 'common/search';

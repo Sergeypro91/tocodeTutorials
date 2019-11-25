@@ -22,7 +22,7 @@
       </div>
     </div>
     <label>Description</label>
-    <textarea v-model="note.descr"></textarea>
+    <textarea rows="4" v-model="note.descr"></textarea>
     <button class="btn btnPrimary" @click="addNote">New note</button>
     <!-- <p>{{ this.note.radioState }}</p> -->
   </div>
@@ -45,34 +45,4 @@ export default {
 </script>
 
 <style lang="scss">
-.new-note {
-  text-align: center;
-}
-.btn {
-  margin: 20px;
-}
-.new-note__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.new-note__top_title {
-  flex-grow: 8;
-  width: 100%;
-}
-.radio {
-  display: flex;
-  min-width: 320px;
-  flex-wrap: wrap;
-  flex-grow: 2;
-  justify-content: space-between;
-  align-items: center;
-}
-.radio-child {
-  margin-left: 30px;
-  & input {
-    height: 21px;
-    cursor: pointer;
-  }
-}
 </style>

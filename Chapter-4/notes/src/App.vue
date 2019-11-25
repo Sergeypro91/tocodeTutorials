@@ -17,11 +17,7 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search
-                :value="search"
-                placeholder="Find your note"
-                @search="search = $event"
-              />
+              <search :value="search" placeholder="Find your note" @search="search = $event" />
 
               <!-- icon controls -->
               <div class="icons">
@@ -73,13 +69,16 @@
               :notes="notesFilter"
               :grid="grid"
               @remove="removeNote"
-              @edit="editTitle"
+              @editTitle="editTitle"
               @editDescr="editDescr"
-              @esc="escEdit"
+              @escTitle="escTitle"
               @escDescr="escDescr"
-              @enter="enterEdit"
+              @enterTitle="enterTitle"
               @enterDescr="enterDescr"
               @clickOutside="clickOutside"
+              @changeToStandart="changeToStandart"
+              @changeToPriority="changeToPriority"
+              @changeToImportant="changeToImportant"
               style="margin: 36px 0;"
             />
           </div>
@@ -212,6 +211,7 @@ export default {
     notesFilter() {
       let array = this.notes,
         search = this.search
+
       if (!search) return array
       //Small
       search = search.trim().toLowerCase()
@@ -232,6 +232,10 @@ export default {
       if (title === '') {
         this.message = 'Title can`t be blank!'
         return false
+      }
+
+      if (descr === '') {
+        descr = title
       }
 
       if (radioState === '') {
@@ -257,7 +261,6 @@ export default {
       this.note.descr = ''
       this.note.newDescr = ''
       this.note.radioState = ''
-
       this.message = null
     },
     removeNote(index) {
@@ -269,25 +272,34 @@ export default {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       if (this.selectedNote === '') {
+        this.message = ''
+        this.notes[notesArrId].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        this.selectedNote = index
-      } else if (this.selectedNote === index) {
-        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        this.selectedNote = ''
+        this.selectedNote = notesArrId
+      } else if (this.selectedNote === notesArrId) {
+        this.message = ''
+        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].edit.descr = false
+        this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
+          .title
       } else if (this.selectedNote >= 0) {
+        this.message = ''
+        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].newDescr = ''
         this.notes[this.selectedNote].edit.title = false
+        this.notes[this.selectedNote].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        this.selectedNote = index
+        this.selectedNote = notesArrId
       }
     },
-    escEdit(index) {
+    escTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.message = ''
       this.notes[notesArrId].newTitle = ''
       this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
     },
-    enterEdit(index) {
+    enterTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       if (this.notes[notesArrId].newTitle === '') {
@@ -303,7 +315,26 @@ export default {
     editDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
-      this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+      if (this.selectedNote === '') {
+        this.message = ''
+        this.notes[notesArrId].edit.title = false
+        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        this.selectedNote = notesArrId
+      } else if (this.selectedNote === notesArrId) {
+        this.message = ''
+        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].edit.title = false
+        this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
+          .descr
+      } else if (this.selectedNote >= 0) {
+        this.message = ''
+        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].edit.descr = false
+        this.notes[this.selectedNote].edit.title = false
+        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        this.selectedNote = notesArrId
+      }
     },
     escDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
@@ -343,7 +374,28 @@ export default {
           this.notes[i].edit.descr = false
         }
         this.message = ''
+        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].newTitle = ''
+        this.selectedNote = ''
       }
+    },
+    changeToStandart(index) {
+      console.log(index)
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].radioState = 'standart'
+    },
+    changeToPriority(index) {
+      console.log('changeToPriority')
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].radioState = 'priority'
+    },
+    changeToImportant(index) {
+      console.log('changeToImportant')
+      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      this.notes[notesArrId].radioState = 'important'
     }
   },
   directives: {
@@ -357,41 +409,4 @@ export default {
 </script>
 
 <style lang="scss">
-p {
-  word-break: break-word;
-}
-input,
-textarea {
-  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
-}
-input:focus,
-textarea:focus {
-  border: #494ce8 solid 1px;
-  transition-delay: 0s !important;
-}
-@media screen and (max-width: 768px) {
-  .new-note__top {
-    flex-direction: column;
-  }
-  .radio-child {
-    margin: 0;
-  }
-  .notes {
-    display: flex;
-    align-self: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .wrapper__search {
-    margin: 0 0 0 20px !important;
-  }
-  .icons {
-    display: none;
-  }
-}
-@media screen and (max-width: 320px) {
-  .container {
-    padding: 0 10px;
-  }
-}
 </style>

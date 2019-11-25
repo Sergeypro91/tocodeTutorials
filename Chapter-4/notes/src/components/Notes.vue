@@ -12,18 +12,34 @@
       :key="note.idNote"
       v-click-outside="outside"
     >
-      <!--  -->
       <div class="note-header" :class="{ full: !grid }">
         <p @click="editTitle(note.idNote)">{{ note.title }}</p>
-        <p @click="removeNote(note.idNote)">x</p>
+        <div class="note-header__priority-change">
+          <div
+            class="note-header__priority-change_standart"
+            @click="changeToStandart(note.idNote)"
+            :class="{hidestandart: note.radioState == 'standart' }"
+          ></div>
+          <div
+            class="note-header__priority-change_priority"
+            @click="changeToPriority(note.idNote)"
+            :class="{hidepriority: note.radioState == 'priority' }"
+          ></div>
+          <div
+            class="note-header__priority-change_important"
+            @click="changeToImportant(note.idNote)"
+            :class="{hideimportant: note.radioState == 'important' }"
+          ></div>
+          <p @click="removeNote(note.idNote)">x</p>
+        </div>
       </div>
       <div class="edit-title" :class="{ edittitle: note.edit.title }">
         <input
           type="text"
           class="edit-title__text"
           :placeholder="'Edit title:'"
-          @keydown.esc="escEdit(note.idNote)"
-          @keydown.enter="enterEdit(note.idNote)"
+          @keydown.esc="escTitle(note.idNote)"
+          @keydown.enter="enterTitle(note.idNote)"
           v-model="note.newTitle"
         />
       </div>
@@ -31,18 +47,15 @@
         <p
           @click="editDescr(note.idNote)"
           :class="{ hideOldDescr: note.edit.descr }"
-        >
-          {{ note.descr }}
-        </p>
-
+        >{{ note.descr }}</p>
         <textarea
           rows="4"
           v-model="note.newDescr"
           :placeholder="'Edit description:'"
           class="edit-descr"
           :class="{ editdescr: note.edit.descr }"
-          @keydown.esc="escEditDescr(note.idNote)"
-          @keydown.enter="enterEditDescr(note.idNote)"
+          @keydown.esc="escDescr(note.idNote)"
+          @keydown.enter="enterDescr(note.idNote)"
         ></textarea>
         <span>{{ note.date }}</span>
       </div>
@@ -64,45 +77,47 @@ export default {
   },
   methods: {
     removeNote(index) {
-      console.log(`Note id - ${index} removed`)
       this.$emit('remove', index)
     },
     editTitle(index) {
-      console.log(`Ready to edit title - ${index}`)
-      this.$emit('edit', index)
+      this.$emit('editTitle', index)
     },
-    escEdit(index) {
-      console.log(`Exit from title edit - ${index}`)
-      this.$emit('esc', index)
+    escTitle(index) {
+      this.$emit('escTitle', index)
     },
-    enterEdit(index) {
-      console.log(`Enter date to Edit - ${index}`)
-      this.$emit('enter', index)
+    enterTitle(index) {
+      this.$emit('enterTitle', index)
     },
     editDescr(index) {
-      console.log(`Ready to edit description - ${index}`)
       this.$emit('editDescr', index)
     },
-    escEditDescr(index) {
-      console.log(`Exit from description edit - ${index}`)
+    escDescr(index) {
       this.$emit('escDescr', index)
     },
-    enterEditDescr(index) {
-      console.log(`Enter date to Description - ${index}`)
+    enterDescr(index) {
       this.$emit('enterDescr', index)
     },
     outside(index) {
-      console.log('Click outside')
       this.$emit('clickOutside', index)
+    },
+    changeToStandart(index) {
+      console.log('changeToStandart')
+      this.$emit('changeToStandart', index)
+    },
+    changeToPriority(index) {
+      console.log('changeToPriority')
+      this.$emit('changeToPriority', index)
+    },
+    changeToImportant(index) {
+      console.log('changeToImportant')
+      this.$emit('changeToImportant', index)
     }
   },
   directives: {
     'click-outside': {
       bind: function(el, binding, vnode) {
         el.clickOutsideEvent = function(event) {
-          // here I check that click was outside the el and his childrens
           if (!(el == event.target || el.contains(event.target))) {
-            // and if it did, call method provided in attribute value
             binding.value(event)
           }
         }
@@ -117,120 +132,4 @@ export default {
 </script>
 
 <style lang="scss">
-.notes {
-  display: inline-block;
-  column-count: 2;
-  padding: 40px 0;
-  &.wide {
-    display: flex;
-    align-self: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-}
-.note {
-  width: 100%;
-  min-height: 156px;
-  break-inside: avoid;
-  page-break-inside: avoid;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.02);
-  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
-  &:hover {
-    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.04);
-    transform: translate(0, -6px);
-    transition-delay: 0s !important;
-  }
-  &.full {
-    width: 100%;
-    text-align: center;
-  }
-  &.priority {
-    background: #fdd835;
-    input {
-      border: #777777 solid 1px;
-    }
-    span {
-      color: #777777;
-    }
-  }
-  &.important {
-    background: #d40000;
-    input,
-    input::placeholder,
-    p {
-      color: #eeeeee;
-    }
-    textarea {
-      color: #fff;
-    }
-    span {
-      color: #bbbbbb;
-    }
-  }
-}
-.note-header,
-.note-header--edit {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  &.full {
-    justify-content: center;
-    p {
-      margin-right: 16px;
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-  h1 {
-    font-size: 22px;
-  }
-  p {
-    font-size: 22px;
-    color: #402caf;
-    cursor: pointer;
-    align-self: flex-start;
-    &:nth-child(2) {
-      margin-left: 20px;
-    }
-  }
-  svg {
-    margin-right: 12px;
-    color: #999;
-    &.active {
-      color: #402caf;
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-}
-.note-body {
-  margin: 20px 0;
-}
-span {
-  font-size: 14px;
-  color: #999;
-}
-.edit-title,
-.edit-descr,
-.hideOldDescr {
-  display: none;
-}
-.edittitle,
-.editdescr {
-  display: flex;
-  margin-top: 20px;
-}
-.edit-title__text {
-  margin: 0;
-  background: none;
-}
-.edit-descr {
-  background: none;
-}
 </style>

@@ -1,0 +1,36 @@
+.new-note {
+  text-align: center;
+}
+
+.btn {
+  margin: 20px;
+}
+
+.new-note__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.new-note__top_title {
+  flex-grow: 8;
+  width: 100%;
+}
+
+.radio {
+  display: flex;
+  min-width: 320px;
+  flex-wrap: wrap;
+  flex-grow: 2;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio-child {
+  margin-left: 30px;
+  & input {
+    height: 21px;
+    cursor: pointer;
+  }
+}
