@@ -17,7 +17,11 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="search = $event" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="search = $event"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -229,12 +233,12 @@ export default {
     addNote() {
       let { title, descr, radioState } = this.note
 
-      if (title === '') {
+      if (title.trim() === '') {
         this.message = 'Title can`t be blank!'
         return false
       }
 
-      if (descr === '') {
+      if (descr.trim() === '') {
         descr = title
       }
 
@@ -405,5 +409,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

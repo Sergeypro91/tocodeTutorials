@@ -134,7 +134,9 @@
 
 .note-body {
   margin: 20px 0;
-  cursor: pointer;
+  p {
+    cursor: pointer;
+  }
 }
 
 .note-body__main {
