@@ -12,34 +12,3 @@ textarea:focus {
   border: $primary-color solid 1px;
   transition-delay: 0s !important;
 }
-
-@media screen and (max-width: $tableWidth) {
-  .new-note__top {
-    flex-direction: column;
-  }
-
-  .radio-child {
-    margin: 0;
-  }
-
-  .notes {
-    display: flex;
-    align-self: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-
-  .wrapper__search {
-    margin: 0 0 0 20px !important;
-  }
-
-  .icons {
-    display: none;
-  }
-}
-
-@media screen and (max-width: $smPhoneWidth) {
-  .container {
-    padding: 0 10px;
-  }
-}

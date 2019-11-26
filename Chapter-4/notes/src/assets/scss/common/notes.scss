@@ -2,7 +2,7 @@
   width: 100%;
   display: inline-block;
   column-count: 2;
-  padding: 40px 0;
+  padding: 0;
   &.wide {
     display: flex;
     align-self: center;
@@ -168,4 +168,35 @@ span {
 
 .edit-descr {
   background: none;
+}
+
+@media screen and (max-width: $tableWidth) {
+  .new-note__top {
+    flex-direction: column;
+  }
+
+  .radio-child {
+    margin: 0;
+  }
+
+  .notes {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .wrapper__search {
+    margin: 0 0 0 20px !important;
+  }
+
+  .icons {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $smPhoneWidth) {
+  .container {
+    padding: 0 10px;
+  }
 }
