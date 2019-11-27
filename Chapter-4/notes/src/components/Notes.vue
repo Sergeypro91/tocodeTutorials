@@ -49,9 +49,7 @@
         <p
           @click="editDescr(note.idNote)"
           :class="{ hideOldDescr: note.edit.descr }"
-        >
-          {{ note.descr }}
-        </p>
+        >{{ note.descr }}</p>
         <textarea
           rows="4"
           v-model="note.newDescr"

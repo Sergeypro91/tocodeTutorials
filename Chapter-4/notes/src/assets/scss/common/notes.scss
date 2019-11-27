@@ -136,6 +136,13 @@
   p {
     cursor: pointer;
   }
+  textarea {
+    font-family: $mainFont;
+    font-size: $mainFontSize;
+    font-weight: $mainFontWeight;
+    line-height: $mainLineHeight;
+    padding: 20px;
+  }
 }
 
 .note-body__main {

@@ -17,11 +17,7 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search
-                :value="search"
-                placeholder="Find your note"
-                @search="search = $event"
-              />
+              <search :value="search" placeholder="Find your note" @search="search = $event" />
 
               <!-- icon controls -->
               <div class="icons">
@@ -225,11 +221,11 @@ export default {
       //Filter
       array = array.filter(function(item) {
         if (item.title.toLowerCase().indexOf(search) !== -1) {
-          // this.notesCounter = 1
-          console.log(noteCounter)
+          noteCounter++
           return item
         }
       })
+      this.notesCounter = noteCounter
       // Error
       return array
     }
@@ -382,7 +378,10 @@ export default {
         this.clickCounter++
       }
 
-      if (this.clickCounter === this.notes.length) {
+      if (
+        this.clickCounter === this.notes.length ||
+        this.clickCounter === this.notesCounter
+      ) {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
