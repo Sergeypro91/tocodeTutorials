@@ -10,5 +10,6 @@ textarea {
 input:focus,
 textarea:focus {
   border: $primary-color solid 1px;
+  box-shadow: 0 6px 28px -4px rgba(0, 0, 0, 0.12);
   transition-delay: 0s !important;
 }

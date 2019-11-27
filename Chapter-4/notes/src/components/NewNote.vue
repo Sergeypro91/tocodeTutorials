@@ -8,16 +8,40 @@
       </div>
       <div class="radio">
         <div class="radio-child">
-          <label>Standart</label>
-          <input type="radio" name="radioType" v-model="note.radioState" :value="note.standart" />
+          <label>
+            <input
+              id="radio-button-child"
+              type="radio"
+              name="radioType"
+              v-model="note.radioState"
+              :value="note.standart"
+            />
+            <span>Standart</span>
+          </label>
         </div>
         <div class="radio-child">
-          <label>Priority</label>
-          <input type="radio" name="radioType" v-model="note.radioState" :value="note.priority" />
+          <label>
+            <input
+              id="radio-button-child"
+              type="radio"
+              name="radioType"
+              v-model="note.radioState"
+              :value="note.priority"
+            />
+            <span>Priority</span>
+          </label>
         </div>
         <div class="radio-child">
-          <label>Important</label>
-          <input type="radio" name="radioType" v-model="note.radioState" :value="note.important" />
+          <label>
+            <input
+              id="radio-button-child"
+              type="radio"
+              name="radioType"
+              v-model="note.radioState"
+              :value="note.important"
+            />
+            <span>Important</span>
+          </label>
         </div>
       </div>
     </div>
@@ -44,5 +68,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
