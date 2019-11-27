@@ -29,12 +29,15 @@
 
 .radio-child {
   margin-left: 20px;
+  label {
+    margin: 0;
+  }
   span {
     color: #101010;
   }
   [type='radio']:not(:checked),
   [type='radio']:checked {
-    opacity: 0;
+    display: none;
     pointer-events: none;
   }
 

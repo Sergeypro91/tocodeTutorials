@@ -116,6 +116,7 @@ export default {
       clickCord: '',
       clickCounter: '',
       selectedNote: '',
+      notesCounter: 0,
       note: {
         title: '',
         newTitle: '',
@@ -216,12 +217,16 @@ export default {
       let array = this.notes,
         search = this.search
 
+      let noteCounter = 0
+
       if (!search) return array
       //Small
       search = search.trim().toLowerCase()
       //Filter
       array = array.filter(function(item) {
         if (item.title.toLowerCase().indexOf(search) !== -1) {
+          // this.notesCounter = 1
+          console.log(noteCounter)
           return item
         }
       })
@@ -275,6 +280,8 @@ export default {
     editTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
+      this.notes[notesArrId].newTitle = this.notes[notesArrId].title
+
       if (this.selectedNote === '') {
         this.message = ''
         this.notes[notesArrId].edit.descr = false
@@ -282,7 +289,7 @@ export default {
         this.selectedNote = notesArrId
       } else if (this.selectedNote === notesArrId) {
         this.message = ''
-        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].newTitle = this.notes[notesArrId].title
         this.notes[this.selectedNote].edit.descr = false
         this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
           .title
@@ -319,6 +326,8 @@ export default {
     editDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
+      this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
+
       if (this.selectedNote === '') {
         this.message = ''
         this.notes[notesArrId].edit.title = false
@@ -326,7 +335,7 @@ export default {
         this.selectedNote = notesArrId
       } else if (this.selectedNote === notesArrId) {
         this.message = ''
-        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
         this.notes[this.selectedNote].edit.title = false
         this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
           .descr
@@ -370,14 +379,13 @@ export default {
       } else {
         this.clickCord = index
         this.clickCounter = ''
+        this.clickCounter++
       }
 
-      if (this.clickCounter === this.notes.length - 1) {
+      if (this.clickCounter === this.notes.length) {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
-          this.notes[i].newDescr = ''
-          this.notes[i].newTitle = ''
         }
 
         this.selectedNote = ''
