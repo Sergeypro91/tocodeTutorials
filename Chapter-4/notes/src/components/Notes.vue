@@ -51,10 +51,9 @@
           :class="{ hideOldDescr: note.edit.descr }"
         >{{ note.descr }}</p>
         <textarea
-          rows="4"
           v-model="note.newDescr"
           :placeholder="'Edit description:'"
-          class="edit-descr"
+          class="edit-descr js-autoresize"
           :class="{ editdescr: note.edit.descr }"
           @keydown.esc="escDescr(note.idNote)"
           @keydown.enter="enterDescr(note.idNote)"
@@ -66,7 +65,10 @@
 </template>
 
 <script>
+import { setResizeListeners } from '../directives/auto-resize.js'
+
 export default {
+  name: 'Notes',
   props: {
     notes: {
       type: Array,
@@ -126,6 +128,9 @@ export default {
         document.body.removeEventListener('click', el.clickOutsideEvent)
       }
     }
+  },
+  mounted() {
+    setResizeListeners(this.$el, '.js-autoresize')
   }
 }
 </script>
