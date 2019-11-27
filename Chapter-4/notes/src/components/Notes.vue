@@ -13,22 +13,24 @@
       v-click-outside="outside"
     >
       <div class="note-header" :class="{ full: !grid }">
-        <p @click="editTitle(note.idNote)">{{ note.title }}</p>
+        <div class="note-header__title">
+          <p @click="editTitle(note.idNote)">{{ note.title }}</p>
+        </div>
         <div class="note-header__priority-change">
           <div
             class="note-header__priority-change_standart"
             @click="changeToStandart(note.idNote)"
-            :class="{hidestandart: note.radioState == 'standart' }"
+            :class="{ hidestandart: note.radioState == 'standart' }"
           ></div>
           <div
             class="note-header__priority-change_priority"
             @click="changeToPriority(note.idNote)"
-            :class="{hidepriority: note.radioState == 'priority' }"
+            :class="{ hidepriority: note.radioState == 'priority' }"
           ></div>
           <div
             class="note-header__priority-change_important"
             @click="changeToImportant(note.idNote)"
-            :class="{hideimportant: note.radioState == 'important' }"
+            :class="{ hideimportant: note.radioState == 'important' }"
           ></div>
           <p @click="removeNote(note.idNote)">x</p>
         </div>
@@ -47,7 +49,9 @@
         <p
           @click="editDescr(note.idNote)"
           :class="{ hideOldDescr: note.edit.descr }"
-        >{{ note.descr }}</p>
+        >
+          {{ note.descr }}
+        </p>
         <textarea
           rows="4"
           v-model="note.newDescr"
@@ -128,5 +132,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
