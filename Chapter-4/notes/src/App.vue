@@ -93,6 +93,7 @@ import message from '@/components/Message.vue'
 import newNote from '@/components/NewNote.vue'
 import notes from '@/components/Notes.vue'
 import search from '@/components/Search.vue'
+import { setResizeListeners } from '@/directives/auto-resize.js'
 
 export default {
   components: {
@@ -225,7 +226,7 @@ export default {
           return item
         }
       })
-      this.notesCounter = noteCounter
+      this.notesCounter = 0
       // Error
       return array
     }
@@ -385,6 +386,8 @@ export default {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
+          let descrHeight = this.$el.querySelectorAll('descr_height')
+          console.log(descrHeight)
         }
 
         this.selectedNote = ''

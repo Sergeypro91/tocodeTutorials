@@ -47,6 +47,7 @@
       </div>
       <div class="note-body">
         <p
+          class="descr_height"
           @click="editDescr(note.idNote)"
           :class="{ hideOldDescr: note.edit.descr }"
         >{{ note.descr }}</p>

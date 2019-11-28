@@ -1,11 +1,17 @@
 function resize() {
-  this.style.height = '100px'
+  this.style.height = 'uato'
   this.style.height = `${this.scrollHeight}px`
 }
 export const setResizeListeners = ($el, query) => {
   const targets = $el.querySelectorAll(query)
   targets.forEach(target => {
-    target.style.height = `${target.scrollHeight}px`
+    target.style.height = `${target.parentElement.clientHeight + 40}px`
     target.addEventListener('input', resize)
+    target.addEventListener('keydown', function(event) {
+      if (event.key == 'Enter' || event.key == 'Escape') {
+        target.style.height = `${target.parentElement.clientHeight + 40}px`
+        console.log($el.querySelectorAll(query))
+      }
+    })
   })
 }
