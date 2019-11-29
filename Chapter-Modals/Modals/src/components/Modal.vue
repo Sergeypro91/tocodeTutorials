@@ -1,5 +1,5 @@
 <template>
-  <div class="modal__wrapper">
+  <div class="modal__wrapper" @click="$emit('close')">
     <div class="modal-content">
       <!-- header -->
       <div class="modal-header">

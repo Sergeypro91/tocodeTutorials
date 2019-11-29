@@ -7,7 +7,12 @@
             Show first modal
           </button>
           <!-- first modal -->
-          <modals title="First modal" v-if="modalFirst"> </modals>
+          <modals
+            title="First modal"
+            v-if="modalFirst"
+            @close="modalFirst = !modalFirst"
+          >
+          </modals>
         </div>
       </section>
     </div>
