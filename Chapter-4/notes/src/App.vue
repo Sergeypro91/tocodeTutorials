@@ -17,7 +17,11 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="search = $event" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="search = $event"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -387,7 +391,6 @@ export default {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
           let descrHeight = this.$el.querySelectorAll('descr_height')
-          console.log(descrHeight)
         }
 
         this.selectedNote = ''

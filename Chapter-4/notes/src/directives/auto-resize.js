@@ -5,12 +5,11 @@ function resize() {
 export const setResizeListeners = ($el, query) => {
   const targets = $el.querySelectorAll(query)
   targets.forEach(target => {
-    target.style.height = `${target.parentElement.clientHeight + 40}px`
+    target.style.height = `${target.parentElement.clientHeight}px`
     target.addEventListener('input', resize)
     target.addEventListener('keydown', function(event) {
       if (event.key == 'Enter' || event.key == 'Escape') {
-        target.style.height = `${target.parentElement.clientHeight + 40}px`
-        console.log($el.querySelectorAll(query))
+        target.style.height = `${target.parentElement.clientHeight}px`
       }
     })
   })

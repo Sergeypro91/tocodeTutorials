@@ -50,7 +50,9 @@
           class="descr_height"
           @click="editDescr(note.idNote)"
           :class="{ hideOldDescr: note.edit.descr }"
-        >{{ note.descr }}</p>
+        >
+          {{ note.descr }}
+        </p>
         <textarea
           v-model="note.newDescr"
           :placeholder="'Edit description:'"
@@ -132,6 +134,11 @@ export default {
   },
   mounted() {
     setResizeListeners(this.$el, '.js-autoresize')
+  },
+  updated: function() {
+    this.$nextTick(function() {
+      setResizeListeners(this.$el, '.js-autoresize')
+    })
   }
 }
 </script>

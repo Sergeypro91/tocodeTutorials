@@ -36,6 +36,9 @@
     input,
     textarea {
       border: $neutral-secondary solid 1px;
+      &:hover {
+        border: $primary-color solid 1px;
+      }
     }
     span {
       color: $neutral-secondary;
