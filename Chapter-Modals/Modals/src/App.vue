@@ -1,98 +1,51 @@
 <template>
   <div class="wrapper">
     <div class="wrapper-content">
-      <section>
-        <div class="container">
-          <button class="btn btnPrimary" @click="modalFirst = !modalFirst">
-            Show first modal
-          </button>
-
-          <!-- first modal -->
-          <modals
-            title="First modal"
-            v-show="modalFirst"
-            @close="modalFirst = false"
-          >
-            <div slot="body">
-              <p>Text</p>
-              <button class="btn btnPrimary" @click="modalFirst = !modalFirst">
-                Well done!
-              </button>
+      <header>
+        <div class="navbar">
+          <div class="container">
+            <div class="navbar-content">
+              <div class="logo">VUE-CLI</div>
+              <ul class="navbar-list">
+                <li class="navbar-item" v-for="link in links" :key="link.title">
+                  <router-link
+                    class="navbar-link"
+                    :title="link.title"
+                    :to="link.url"
+                    >{{ link.title }}</router-link
+                  >
+                </li>
+              </ul>
             </div>
-          </modals>
-
-          <!-- second modal -->
-          <button
-            class="btn btnPrimary"
-            @click="modalSecond.show = !modalSecond.show"
-          >
-            Show modal with form
-          </button>
-          <modals
-            title="Modal with form"
-            v-show="modalSecond.show"
-            @close="modalSecond.show = false"
-          >
-            <div slot="body">
-              <form @submit.prevent="submitSecondForm">
-                <label>Name:</label>
-                <input type="text" v-model="modalSecond.name" />
-                <label>Email:</label>
-                <input type="email" v-model="modalSecond.email" />
-                <button class="btn btnPrimary">
-                  Submit!
-                </button>
-              </form>
-            </div>
-          </modals>
-
-          <!-- modal with walidate -->
-          <button
-            class="btn btnPrimary"
-            @click="modalValidate = !modalValidate"
-          >
-            Show modal with form + walidate
-          </button>
-          <modalValidate v-show="modalValidate" @close="modalValidate = false">
-          </modalValidate>
+          </div>
         </div>
-      </section>
+      </header>
+
+      <router-view></router-view>
+
+      <footer></footer>
     </div>
   </div>
 </template>
 
 <script>
-import modals from '@/components/UI/Modal.vue'
-import modalValidate from '@/components/ModalValidate.vue'
-
 export default {
-  components: {
-    modals,
-    modalValidate
-  },
   data() {
     return {
-      modalFirst: false,
-      modalSecond: {
-        show: false,
-        name: '',
-        email: ''
-      },
-      modalValidate: false
-    }
-  },
-  methods: {
-    submitSecondForm() {
-      console.log({
-        name: this.modalSecond.name,
-        emaeil: this.modalSecond.email
-      })
-      this.modalSecond.name = ''
-      this.modalSecond.email = ''
-      this.modalSecond.show = false
+      links: [
+        { title: 'Home', url: '/' },
+        { title: 'DZ2-1', url: '/dz2-1' },
+        { title: 'DZ2-2', url: '/dz2-2' }
+      ]
     }
   }
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.navbar-link {
+  &.router-link-exact-active {
+    color: #5247e7;
+  }
+}
+</style>
