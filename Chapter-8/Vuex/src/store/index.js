@@ -3,19 +3,10 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import example from './example'
+
 export default new Vuex.Store({
-  state: {
-    message: 'Hello Vuex!'
-  },
-  mutations: {
-    setMessage(state) {
-      state.message = 'Hello again'
-    }
-  },
-  actions: {
-    setMessage({ commit }) {
-      commit('setMessage')
-    }
-  },
-  getters: {}
+  modules: {
+    example
+  }
 })
