@@ -1,25 +1,48 @@
 <template>
   <div class="wrapper">
-
-    <!-- <header></header> -->
-
-    <div class="wrapper-content">
-      <section>
+    <header>
+      <div class="navbar">
         <div class="container">
-          <h1>HELLO</h1>
-          <img alt="Vue logo" src="./assets/logo.png">
+          <div class="navbar-content">
+            <div class="logo">VUE-CLI</div>
+            <ul class="navbar-list">
+              <li class="navbar-item" v-for="link in links" :key="link.title">
+                <router-link
+                  class="navbar-link"
+                  :title="link.title"
+                  :to="link.url"
+                  >{{ link.title }}</router-link
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </header>
 
-    <!-- <footer></footer> -->
+    <router-view></router-view>
 
+    <footer></footer>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      links: [
+        { title: 'Home', url: '/' },
+        { title: 'Example', url: '/example' }
+      ]
+    }
+  }
+}
 </script>
 
-<style>
+<style lang="scss">
+.navbar-link {
+  &.router-link-exact-active {
+    color: #5247e7;
+  }
+}
 </style>
