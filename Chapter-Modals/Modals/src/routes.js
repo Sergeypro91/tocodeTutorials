@@ -5,6 +5,7 @@ Vue.use(Router)
 
 // Pages
 import Home from '@/pages/Home'
+import NotFound from '@/pages/404'
 import DZ21 from '@/pages/DZ2-1'
 import DZ22 from '@/pages/DZ2-2'
 
@@ -26,6 +27,11 @@ export default new Router({
       path: '/dz2-2',
       name: 'dz2-2',
       component: DZ22
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: NotFound
     }
   ]
 })
