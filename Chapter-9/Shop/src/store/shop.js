@@ -1,20 +1,37 @@
 export default {
   state: {
-    message: 'Hello Vuex!'
+    shopList: [
+      {
+        id: 1,
+        title: 'Nike Red',
+        descr: 'Some lorem text for lorem',
+        img: require('../assets/img/1.png')
+      },
+      {
+        id: 2,
+        title: 'Nike default',
+        descr: 'Some lorem text for lorem',
+        img: require('../assets/img/4.png')
+      },
+      {
+        id: 3,
+        title: 'Nike Grean',
+        descr: 'Some lorem text for lorem',
+        img: require('../assets/img/7.png')
+      },
+      {
+        id: 4,
+        title: 'Nike Street',
+        descr: 'Some lorem text for lorem',
+        img: require('../assets/img/10.png')
+      }
+    ]
   },
-  mutations: {
-    setMessage(state, payload) {
-      state.message = payload
-    }
-  },
-  actions: {
-    setMessage({ commit }, payload) {
-      commit('setMessage', payload)
-    }
-  },
+  mutations: {},
+  actions: {},
   getters: {
-    getMessage(state) {
-      return state.message
+    getShopList(state) {
+      return state.shopList
     }
   }
 }
