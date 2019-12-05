@@ -1,7 +1,9 @@
 <template>
   <div class="item">
     <img :src="product.img" :alt="product.title" />
-    <p>{{ product.title }}</p>
+    <router-link :to="/shop/ + product.id" class="link">
+      <h1>{{ product.title }}</h1>
+    </router-link>
   </div>
 </template>
 
