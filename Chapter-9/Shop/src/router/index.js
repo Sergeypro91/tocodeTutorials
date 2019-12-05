@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 import Home from '@/views/Home'
 import NotFound from '@/views/404'
 import Shop from '@/views/Shop'
+import Product from '@/views/Product'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/shop',
     name: 'shop',
     component: Shop
+  },
+  {
+    path: '/shop/:id',
+    name: 'product',
+    component: Product
   },
   {
     path: '*',
