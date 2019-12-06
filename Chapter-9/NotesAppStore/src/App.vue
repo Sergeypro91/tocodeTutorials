@@ -108,7 +108,7 @@ export default {
   },
   data() {
     return {
-      title: 'Notes App',
+      title: null,
       message: null,
       grid: true,
       search: '',
@@ -123,9 +123,11 @@ export default {
         newTitle: '',
         descr: '',
         radioState: '',
-        standart: 'standart',
-        priority: 'priority',
-        important: 'important'
+        prioritys: [
+          { prioritysType: 'standart' },
+          { prioritysType: 'priority' },
+          { prioritysType: 'important' }
+        ]
       },
       notes: [
         {
@@ -213,6 +215,9 @@ export default {
       ]
     }
   },
+  created() {
+    this.title = this.$store.getters.getTitle
+  },
   computed: {
     notesFilter() {
       let array = this.notes,
@@ -249,7 +254,7 @@ export default {
       }
 
       if (radioState === '') {
-        radioState = this.note.standart
+        radioState = this.note.prioritys[0].prioritysType
       }
 
       this.notes.push({

@@ -8,7 +8,7 @@
         priority: note.radioState == 'priority',
         important: note.radioState == 'important'
       }"
-      v-for="(note, index) in notes"
+      v-for="note in notes"
       :key="note.idNote"
       v-click-outside="outside"
     >

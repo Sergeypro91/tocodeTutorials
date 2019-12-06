@@ -7,40 +7,20 @@
         <input v-model="note.title" type="text" />
       </div>
       <div class="radio">
-        <div class="radio-child">
+        <div
+          class="radio-child"
+          v-for="(priority, index) in this.note.prioritys"
+          :key="index"
+        >
           <label>
             <input
               id="radio-button-child"
               type="radio"
               name="radioType"
               v-model="note.radioState"
-              :value="note.standart"
+              :value="priority.prioritysType"
             />
-            <span>Standart</span>
-          </label>
-        </div>
-        <div class="radio-child">
-          <label>
-            <input
-              id="radio-button-child"
-              type="radio"
-              name="radioType"
-              v-model="note.radioState"
-              :value="note.priority"
-            />
-            <span>Priority</span>
-          </label>
-        </div>
-        <div class="radio-child">
-          <label>
-            <input
-              id="radio-button-child"
-              type="radio"
-              name="radioType"
-              v-model="note.radioState"
-              :value="note.important"
-            />
-            <span>Important</span>
+            <span>{{ priority.prioritysType }}</span>
           </label>
         </div>
       </div>
