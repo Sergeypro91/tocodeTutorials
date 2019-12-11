@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
 // Pages
-import Home from '@/views/Home'
+import Home from '@/views/Home.vue'
 import NotFound from '@/views/404'
 import Users from '@/views/Users'
+
+Vue.use(VueRouter)
 
 const routes = [
   {
