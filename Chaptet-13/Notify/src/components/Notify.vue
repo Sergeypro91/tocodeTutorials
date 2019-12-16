@@ -7,6 +7,15 @@
         </td>
       </tr>
     </transition-group>
+
+    <button
+      class="btn btnPrimary"
+      :disabled="maxLength === 0"
+      :class="{ btnDisabled: maxLength === 0 }"
+      @click="loadMore"
+    >
+      Load more
+    </button>
   </table>
 </template>
 
@@ -16,6 +25,20 @@ export default {
     messages: {
       type: Array,
       required: true
+    }
+  },
+
+  computed: {
+    maxLength() {
+      return this.$store.getters.getMessageFilter.length
+    }
+  },
+
+  methods: {
+    loadMore() {
+      this.$store.dispatch('loadMessages').catch(err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -48,6 +71,14 @@ td {
 
 button {
   margin-top: 20px;
+  &.btnDisabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+}
+
+button {
+  margin-top: 20pt;
   &.btnDisabled {
     cursor: default;
     opacity: 0.6;
