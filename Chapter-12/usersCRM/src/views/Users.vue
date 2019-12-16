@@ -2,7 +2,7 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section>
       <div class="container">
-        <h1>Users page</h1>
+        <h1>Notify page</h1>
         <!-- Table -->
         <table>
           <!-- Table Head -->
@@ -16,7 +16,7 @@
 
           <!-- Table Body -->
           <tbody>
-            <tr v-for="user in usersSort" :key="user.id">
+            <tr v-for="user in notifySort" :key="user.id">
               <td>
                 <img :src="user.img" :alt="user.name" />
                 <span>{{ user.name }}</span>
@@ -28,6 +28,7 @@
         </table>
         <div style="text-align: center;">
           <span>debug: sort: {{ currentSort }}, dir: {{ currentSortDir }}</span>
+          // eslint-disable-next-line vue/this-in-template
           <p>page: {{ this.page.current }}, length: {{ this.page.length }}</p>
         </div>
       </div>
@@ -51,7 +52,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      users: [],
+      notify: [],
       currentSort: 'name',
       currentSortDir: 'asc',
       page: {
@@ -62,9 +63,9 @@ export default {
   },
 
   computed: {
-    usersSort() {
+    notifySort() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return this.users
+      return this.notify
         .sort((a, b) => {
           let mod = 1
           if (this.currentSortDir === 'desc') mod = -1
@@ -85,7 +86,7 @@ export default {
       .get('https://api.myjson.com/bins/rzgya')
       .then(response => {
         // console.log(response.data)
-        this.users = response.data
+        this.notify = response.data
       })
       .catch(error => {
         console.log(error)
@@ -104,7 +105,7 @@ export default {
       if (this.page.current > 1) this.page.current -= 1
     },
     nextPage() {
-      if (this.page.current * this.page.length < this.users.length)
+      if (this.page.current * this.page.length < this.notify.length)
         this.page.current += 1
     }
   }

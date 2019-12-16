@@ -4,7 +4,7 @@
       <div class="navbar">
         <div class="container">
           <div class="navbar-content">
-            <div class="logo">Notify CRM</div>
+            <div class="logo">Notify</div>
             <ul class="navbar-list">
               <li v-for="link in links" :key="link.title" class="navbar-item">
                 <router-link

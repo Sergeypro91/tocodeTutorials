@@ -12,9 +12,9 @@
       <h1>{{ title }}</h1>
       <button @click="getContent">Get Content</button>
       <div v-if="showContent">
-        <p>Users:</p>
+        <p>Notify:</p>
         <ul>
-          <li v-for="(user, index) in users" :key="user.id">
+          <li v-for="(user, index) in notify" :key="user.id">
             <p>{{ index }} - {{ user.name }}</p>
             <span>{{ user.email }} - {{ user.age }}</span>
           </li>
@@ -32,7 +32,7 @@
             name: 'Sergey',
             email: 'info@tcode.ru'
           },
-          users: [
+          notify: [
             { id: 123, name: 'jack', email: 'info@tcode.ru', age: 22 },
             { id: 122, name: 'alex', email: 'alex@tcode.ru', age: 24 },
             { id: 121, name: 'ivan', email: 'ivan@tcode.ru', age: 28 }
