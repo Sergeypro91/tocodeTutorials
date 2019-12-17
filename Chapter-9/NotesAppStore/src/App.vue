@@ -17,11 +17,7 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search
-                :value="search"
-                placeholder="Find your note"
-                @search="search = $event"
-              />
+              <search :value="search" placeholder="Find your note" @search="searching" />
 
               <!-- icon controls -->
               <div class="icons">
@@ -109,7 +105,6 @@ export default {
   data() {
     return {
       grid: true,
-      search: '',
       placeholder: '',
       idNouteCount: 6,
       clickCord: '',
@@ -186,7 +181,7 @@ export default {
         {
           title: 'Fifth Note',
           newTitle: '',
-          descr: 'Description for third note',
+          descr: 'Description for fifth note',
           newDescr: '',
           date: new Date(Date.now()).toLocaleString(),
           idNote: 4,
@@ -223,10 +218,13 @@ export default {
       return this.$store.getters.getMessage
     },
 
-    notesFilter() {
-      let array = this.notes,
-        search = this.search
+    search() {
+      return this.$store.getters.getSearch
+    },
 
+    notesFilter() {
+      let array = this.notes
+      let search = this.$store.getters.getSearch
       let noteCounter = 0
 
       if (!search) return array
@@ -234,12 +232,15 @@ export default {
       search = search.trim().toLowerCase()
       //Filter
       array = array.filter(function(item) {
-        if (item.title.toLowerCase().indexOf(search) !== -1) {
+        if (
+          item.title.toLowerCase().indexOf(search) !== -1 ||
+          item.descr.toLowerCase().indexOf(search) !== -1
+        ) {
           noteCounter++
           return item
         }
       })
-      this.notesCounter = 0
+      this.notesCounter = noteCounter
       // Error
       return array
     }
@@ -292,6 +293,9 @@ export default {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes.splice(notesArrId, 1)
+    },
+    searching(data) {
+      this.$store.dispatch('setSearch', data)
     },
     editTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
