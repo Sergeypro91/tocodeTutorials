@@ -23,7 +23,7 @@
               <div class="icons">
                 <svg
                   :class="{ active: grid }"
-                  @click="grid = true"
+                  @click="gridTrue"
                   style="cursor: pointer;"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -42,7 +42,7 @@
                 </svg>
                 <svg
                   :class="{ active: !grid }"
-                  @click="grid = false"
+                  @click="gridFalse"
                   style="cursor: pointer;"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -104,7 +104,6 @@ export default {
   },
   data() {
     return {
-      grid: true,
       placeholder: '',
       idNouteCount: 6,
       clickCord: '',
@@ -218,6 +217,10 @@ export default {
       return this.$store.getters.getMessage
     },
 
+    grid() {
+      return this.$store.getters.getGrid
+    },
+
     search() {
       return this.$store.getters.getSearch
     },
@@ -293,6 +296,12 @@ export default {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes.splice(notesArrId, 1)
+    },
+    gridTrue() {
+      this.$store.dispatch('setGrid', true)
+    },
+    gridFalse() {
+      this.$store.dispatch('setGrid', false)
     },
     searching(data) {
       this.$store.dispatch('setSearch', data)
