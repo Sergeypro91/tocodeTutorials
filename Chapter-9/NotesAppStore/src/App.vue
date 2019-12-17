@@ -108,8 +108,6 @@ export default {
   },
   data() {
     return {
-      title: null,
-      message: null,
       grid: true,
       search: '',
       placeholder: '',
@@ -215,10 +213,16 @@ export default {
       ]
     }
   },
+
   created() {
     this.title = this.$store.getters.getTitle
   },
+
   computed: {
+    message() {
+      return this.$store.getters.getMessage
+    },
+
     notesFilter() {
       let array = this.notes,
         search = this.search
@@ -240,12 +244,15 @@ export default {
       return array
     }
   },
+
   methods: {
     addNote() {
       let { title, descr, radioState } = this.note
 
       if (title.trim() === '') {
-        this.message = 'Title can`t be blank!'
+        let message = 'Title can`t be blank!'
+
+        this.$store.dispatch('setMessage', message)
         return false
       }
 
@@ -276,7 +283,10 @@ export default {
       this.note.descr = ''
       this.note.newDescr = ''
       this.note.radioState = ''
-      this.message = null
+
+      let message = null
+
+      this.$store.dispatch('setMessage', message)
     },
     removeNote(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
@@ -289,18 +299,25 @@ export default {
       this.notes[notesArrId].newTitle = this.notes[notesArrId].title
 
       if (this.selectedNote === '') {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
+
         this.notes[notesArrId].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
         this.selectedNote = notesArrId
       } else if (this.selectedNote === notesArrId) {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[this.selectedNote].newTitle = this.notes[notesArrId].title
         this.notes[this.selectedNote].edit.descr = false
         this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
           .title
       } else if (this.selectedNote >= 0) {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[this.selectedNote].newTitle = ''
         this.notes[this.selectedNote].newDescr = ''
         this.notes[this.selectedNote].edit.title = false
@@ -311,8 +328,9 @@ export default {
     },
     escTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let message = ''
 
-      this.message = ''
+      this.$store.dispatch('setMessage', message)
       this.notes[notesArrId].newTitle = ''
       this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
     },
@@ -320,9 +338,13 @@ export default {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       if (this.notes[notesArrId].newTitle === '') {
-        this.message = 'Title can`t be blank!'
+        let message = 'Title can`t be blank!'
+
+        this.$store.dispatch('setMessage', message)
       } else {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].title = this.notes[notesArrId].newTitle
         this.notes[notesArrId].newTitle = ''
         this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
@@ -335,18 +357,24 @@ export default {
       this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
 
       if (this.selectedNote === '') {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].edit.title = false
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
         this.selectedNote = notesArrId
       } else if (this.selectedNote === notesArrId) {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
         this.notes[this.selectedNote].edit.title = false
         this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
           .descr
       } else if (this.selectedNote >= 0) {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[this.selectedNote].newDescr = ''
         this.notes[this.selectedNote].newTitle = ''
         this.notes[this.selectedNote].edit.descr = false
@@ -357,8 +385,9 @@ export default {
     },
     escDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let message = ''
 
-      this.message = ''
+      this.$store.dispatch('setMessage', message)
       this.notes[notesArrId].newDescr = ''
       this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
     },
@@ -372,7 +401,9 @@ export default {
         this.message = 'Description can`t be blank!'
         this.notes[notesArrId].newDescr = ''
       } else {
-        this.message = ''
+        let message = ''
+
+        this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].descr = this.notes[notesArrId].newDescr
         this.notes[notesArrId].newDescr = ''
         this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
@@ -417,6 +448,7 @@ export default {
       this.notes[notesArrId].radioState = 'important'
     }
   },
+
   directives: {
     focus: {
       inserted: function(el) {
