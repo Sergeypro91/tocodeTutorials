@@ -5,7 +5,8 @@ export default {
     grid: true,
     search: '',
     idNouteCount: 6,
-    clickCord: ''
+    clickCord: '',
+    clickCounter: ''
   },
 
   mutations: {
@@ -27,6 +28,10 @@ export default {
 
     setClickCord(state, payload) {
       state.clickCord = payload
+    },
+
+    setClickCounter(state, payload) {
+      state.clickCounter = payload
     }
   },
 
@@ -49,6 +54,10 @@ export default {
 
     setClickCord({ commit }, payload) {
       commit('setClickCord', payload)
+    },
+
+    setClickCounter({ commit }, payload) {
+      commit('setClickCounter', payload)
     }
   },
 
@@ -75,6 +84,10 @@ export default {
 
     getClickCord(state) {
       return state.clickCord
+    },
+
+    getClickCounter(state) {
+      return state.clickCounter
     }
   }
 }

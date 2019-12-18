@@ -40,6 +40,7 @@
                   <rect x="14" y="14" width="7" height="7" />
                   <rect x="3" y="14" width="7" height="7" />
                 </svg>
+
                 <svg
                   :class="{ active: !grid }"
                   @click="gridFalse"
@@ -102,9 +103,9 @@ export default {
     notes,
     search
   },
+
   data() {
     return {
-      clickCounter: '',
       selectedNote: '',
       notesCounter: 0,
       note: {
@@ -132,6 +133,7 @@ export default {
           },
           radioState: 'standart'
         },
+
         {
           title: 'Second Note',
           newTitle: '',
@@ -146,6 +148,7 @@ export default {
           },
           radioState: 'priority'
         },
+
         {
           title: 'Third Note',
           newTitle: '',
@@ -160,6 +163,7 @@ export default {
           },
           radioState: 'standart'
         },
+
         {
           title: 'Fourth Note',
           newTitle: '',
@@ -174,6 +178,7 @@ export default {
           },
           radioState: 'important'
         },
+
         {
           title: 'Fifth Note',
           newTitle: '',
@@ -187,6 +192,7 @@ export default {
           },
           radioState: 'standart'
         },
+
         {
           title: 'Sixth Note',
           newTitle: '',
@@ -222,22 +228,16 @@ export default {
       return this.$store.getters.getSearch
     },
 
-    idNouteCount() {
-      return this.$store.getters.getIdNouteCount
-    },
-
-    clickCord() {
-      return this.$store.getters.getClickCord
-    },
-
     notesFilter() {
       let array = this.notes
       let search = this.$store.getters.getSearch
       let noteCounter = 0
 
       if (!search) return array
+
       //Small
       search = search.trim().toLowerCase()
+
       //Filter
       array = array.filter(function(item) {
         if (
@@ -248,7 +248,9 @@ export default {
           return item
         }
       })
+
       this.notesCounter = noteCounter
+
       // Error
       return array
     }
@@ -275,8 +277,6 @@ export default {
         radioState = this.note.prioritys[0].prioritysType
       }
 
-      console.log(idNouteCt)
-
       this.notes.push({
         title,
         newTitle: '',
@@ -290,7 +290,6 @@ export default {
           descr: false
         }
       })
-
       this.note.title = ''
       this.note.newTitle = ''
       this.note.descr = ''
@@ -302,20 +301,25 @@ export default {
       this.$store.dispatch('setMessage', message)
       this.$store.dispatch('setIdNouteCount', idNouteCt)
     },
+
     removeNote(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes.splice(notesArrId, 1)
     },
+
     gridTrue() {
       this.$store.dispatch('setGrid', true)
     },
+
     gridFalse() {
       this.$store.dispatch('setGrid', false)
     },
+
     searching(data) {
       this.$store.dispatch('setSearch', data)
     },
+
     editTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
@@ -325,7 +329,6 @@ export default {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-
         this.notes[notesArrId].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
         this.selectedNote = notesArrId
@@ -349,6 +352,7 @@ export default {
         this.selectedNote = notesArrId
       }
     },
+
     escTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
       let message = ''
@@ -357,6 +361,7 @@ export default {
       this.notes[notesArrId].newTitle = ''
       this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
     },
+
     enterTitle(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
@@ -374,6 +379,7 @@ export default {
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
       }
     },
+
     editDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
@@ -406,6 +412,7 @@ export default {
         this.selectedNote = notesArrId
       }
     },
+
     escDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
       let message = ''
@@ -414,6 +421,7 @@ export default {
       this.notes[notesArrId].newDescr = ''
       this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
     },
+
     enterDescr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
@@ -433,20 +441,27 @@ export default {
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
       }
     },
+
     clickOutside(index) {
+      let clickCounter = this.$store.getters.getClickCounter
+
       if (this.$store.getters.getClickCord === index) {
-        this.clickCounter++
+        clickCounter++
+
+        this.$store.dispatch('setClickCounter', clickCounter)
       } else {
         let clickCord = index
 
         this.$store.dispatch('setClickCord', clickCord)
-        this.clickCounter = ''
-        this.clickCounter++
+        clickCounter = ''
+        this.$store.dispatch('setClickCounter', clickCounter)
+        clickCounter++
+        this.$store.dispatch('setClickCounter', clickCounter)
       }
 
       if (
-        this.clickCounter === this.notes.length ||
-        this.clickCounter === this.notesCounter
+        clickCounter === this.notes.length ||
+        clickCounter === this.notesCounter
       ) {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
@@ -457,16 +472,19 @@ export default {
         this.selectedNote = ''
       }
     },
+
     changeToStandart(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes[notesArrId].radioState = 'standart'
     },
+
     changeToPriority(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
       this.notes[notesArrId].radioState = 'priority'
     },
+
     changeToImportant(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
