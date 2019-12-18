@@ -17,11 +17,7 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search
-                :value="search"
-                placeholder="Find your note"
-                @search="searching"
-              />
+              <search :value="search" placeholder="Find your note" @search="searching" />
 
               <!-- icon controls -->
               <div class="icons">
@@ -108,7 +104,6 @@ export default {
   },
   data() {
     return {
-      clickCord: '',
       clickCounter: '',
       selectedNote: '',
       notesCounter: 0,
@@ -229,6 +224,10 @@ export default {
 
     idNouteCount() {
       return this.$store.getters.getIdNouteCount
+    },
+
+    clickCord() {
+      return this.$store.getters.getClickCord
     },
 
     notesFilter() {
@@ -435,10 +434,12 @@ export default {
       }
     },
     clickOutside(index) {
-      if (this.clickCord === index) {
+      if (this.$store.getters.getClickCord === index) {
         this.clickCounter++
       } else {
-        this.clickCord = index
+        let clickCord = index
+
+        this.$store.dispatch('setClickCord', clickCord)
         this.clickCounter = ''
         this.clickCounter++
       }
