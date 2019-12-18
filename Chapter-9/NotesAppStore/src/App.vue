@@ -17,7 +17,11 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="searching" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="searching"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -104,8 +108,6 @@ export default {
   },
   data() {
     return {
-      placeholder: '',
-      idNouteCount: 6,
       clickCord: '',
       clickCounter: '',
       selectedNote: '',
@@ -225,6 +227,10 @@ export default {
       return this.$store.getters.getSearch
     },
 
+    idNouteCount() {
+      return this.$store.getters.getIdNouteCount
+    },
+
     notesFilter() {
       let array = this.notes
       let search = this.$store.getters.getSearch
@@ -252,6 +258,8 @@ export default {
   methods: {
     addNote() {
       let { title, descr, radioState } = this.note
+      let message = null
+      let idNouteCt = this.$store.getters.getIdNouteCount
 
       if (title.trim() === '') {
         let message = 'Title can`t be blank!'
@@ -268,13 +276,15 @@ export default {
         radioState = this.note.prioritys[0].prioritysType
       }
 
+      console.log(idNouteCt)
+
       this.notes.push({
         title,
         newTitle: '',
         descr,
         newDescr: '',
         date: new Date(Date.now()).toLocaleString(),
-        idNote: this.idNouteCount++,
+        idNote: idNouteCt,
         radioState,
         edit: {
           title: false,
@@ -288,9 +298,10 @@ export default {
       this.note.newDescr = ''
       this.note.radioState = ''
 
-      let message = null
+      idNouteCt++
 
       this.$store.dispatch('setMessage', message)
+      this.$store.dispatch('setIdNouteCount', idNouteCt)
     },
     removeNote(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)

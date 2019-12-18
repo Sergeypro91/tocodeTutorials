@@ -3,7 +3,8 @@ export default {
     title: 'Notes App',
     message: null,
     grid: true,
-    search: ''
+    search: '',
+    idNouteCount: 6
   },
 
   mutations: {
@@ -17,6 +18,10 @@ export default {
 
     setSearch(state, payload) {
       state.search = payload
+    },
+
+    setIdNouteCount(state, payload) {
+      state.idNouteCount = payload
     }
   },
 
@@ -31,6 +36,10 @@ export default {
 
     setSearch({ commit }, payload) {
       commit('setSearch', payload)
+    },
+
+    setIdNouteCount({ commit }, payload) {
+      commit('setIdNouteCount', payload)
     }
   },
 
@@ -49,6 +58,10 @@ export default {
 
     getSearch(state) {
       return state.search
+    },
+
+    getIdNouteCount(state) {
+      return state.idNouteCount
     }
   }
 }
