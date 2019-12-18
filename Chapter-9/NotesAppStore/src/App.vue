@@ -17,7 +17,11 @@
               <h1 class="title" style="margin: 0">Notes</h1>
 
               <!-- search -->
-              <search :value="search" placeholder="Find your note" @search="searching" />
+              <search
+                :value="search"
+                placeholder="Find your note"
+                @search="searching"
+              />
 
               <!-- icon controls -->
               <div class="icons">
@@ -249,7 +253,7 @@ export default {
         }
       })
 
-      this.notesCounter = noteCounter
+      this.notesCounter = 0
 
       // Error
       return array
@@ -302,8 +306,15 @@ export default {
       this.$store.dispatch('setIdNouteCount', idNouteCt)
     },
 
-    removeNote(index) {
+    findNoteIdInArr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+
+      console.log(notesArrId)
+      return notesArrId
+    },
+
+    removeNote(index) {
+      let notesArrId = this.findNoteIdInArr(index)
 
       this.notes.splice(notesArrId, 1)
     },
@@ -321,7 +332,9 @@ export default {
     },
 
     editTitle(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
+
+      console.log(notesArrId)
 
       this.notes[notesArrId].newTitle = this.notes[notesArrId].title
 
@@ -354,7 +367,7 @@ export default {
     },
 
     escTitle(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
       let message = ''
 
       this.$store.dispatch('setMessage', message)
@@ -363,7 +376,9 @@ export default {
     },
 
     enterTitle(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
+
+      console.log(notesArrId)
 
       if (this.notes[notesArrId].newTitle === '') {
         let message = 'Title can`t be blank!'
@@ -381,7 +396,7 @@ export default {
     },
 
     editDescr(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
 
       this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
 
@@ -414,7 +429,7 @@ export default {
     },
 
     escDescr(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
       let message = ''
 
       this.$store.dispatch('setMessage', message)
@@ -423,7 +438,7 @@ export default {
     },
 
     enterDescr(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
 
       if (
         this.notes[notesArrId].newDescr === '' ||
@@ -474,19 +489,19 @@ export default {
     },
 
     changeToStandart(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
 
       this.notes[notesArrId].radioState = 'standart'
     },
 
     changeToPriority(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
 
       this.notes[notesArrId].radioState = 'priority'
     },
 
     changeToImportant(index) {
-      let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
+      let notesArrId = this.findNoteIdInArr(index)
 
       this.notes[notesArrId].radioState = 'important'
     }
