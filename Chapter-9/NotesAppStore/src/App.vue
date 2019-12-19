@@ -109,97 +109,7 @@ export default {
   },
 
   data() {
-    return {
-      notes: [
-        {
-          title: 'Firs Note',
-          newTitle: '',
-          newDescr: '',
-          descr: 'Description for first note',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 0,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'standart'
-        },
-
-        {
-          title: 'Second Note',
-          newTitle: '',
-          newDescr: '',
-          descr:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique facilis dolor, aperiam eveniet assumenda cumque.',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 1,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'priority'
-        },
-
-        {
-          title: 'Third Note',
-          newTitle: '',
-          descr:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit pariatur possimus rem officia. Nesciunt aliquam odit reiciendis fugit reprehenderit animi inventore molestias recusandae corporis sit est maxime quos pariatur beatae debitis facere consectetur vitae libero odio in, aliquid quidem, ipsum iure? Autem ut nam fuga voluptatum sit molestiae sint obcaecati eius minima omnis in voluptates, quos corporis aut iusto expedita cumque odit molestias magni sapiente quas eaque deleniti inventore tempore! Pariatur a quaerat enim perferendis, aspernatur porro et nobis. Sint odit quasi, voluptatibus sit, sequi esse sapiente iusto consectetur accusamus quia ratione explicabo perferendis cupiditate totam? Optio voluptatem necessitatibus architecto.',
-          newDescr: '',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 2,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'standart'
-        },
-
-        {
-          title: 'Fourth Note',
-          newTitle: '',
-          descr:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum quos ducimus pariatur quo eius numquam sapiente doloremque asperiores placeat. Ea accusamus architecto cumque nisi qui officiis? Cumque temporibus nulla iste alias dolorum. Vel quod minus aperiam voluptates. Nemo reprehenderit et labore, sunt neque ullam soluta id, sapiente harum eos provident.',
-          newDescr: '',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 3,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'important'
-        },
-
-        {
-          title: 'Fifth Note',
-          newTitle: '',
-          descr: 'Description for fifth note',
-          newDescr: '',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 4,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'standart'
-        },
-
-        {
-          title: 'Sixth Note',
-          newTitle: '',
-          descr:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui quis magni labore sunt deserunt incidunt odit fuga. Ad nisi doloribus quasi quidem vero ab laudantium!',
-          newDescr: '',
-          date: new Date(Date.now()).toLocaleString(),
-          idNote: 5,
-          edit: {
-            title: false,
-            descr: false
-          },
-          radioState: 'standart'
-        }
-      ]
-    }
+    return {}
   },
 
   created() {
@@ -239,6 +149,10 @@ export default {
       return this.$store.getters.getNote
     },
 
+    notes() {
+      return this.$store.getters.getNotes
+    },
+
     notesFilter() {
       let array = this.notes
       let search = this.$store.getters.getSearch
@@ -268,6 +182,7 @@ export default {
       let { title, descr, radioState } = this.note
       let message = null
       let idNouteCount = this.idNouteCount
+      let notes = this.notes
 
       if (title.trim() === '') {
         let message = 'Title can`t be blank!'
@@ -284,7 +199,7 @@ export default {
         radioState = this.note.prioritys[0].prioritysType
       }
 
-      this.notes.push({
+      notes.push({
         title,
         newTitle: '',
         descr,
@@ -297,6 +212,7 @@ export default {
           descr: false
         }
       })
+      this.$store.dispatch('getNotes', notes)
       this.note.title = ''
       this.note.newTitle = ''
       this.note.descr = ''
@@ -335,33 +251,44 @@ export default {
 
     editTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
-      this.notes[notesArrId].newTitle = this.notes[notesArrId].title
+      notes[notesArrId].newTitle = this.notes[notesArrId].title
+      this.$store.dispatch('getNotes', notes)
 
       if (this.selectedNote === '') {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[notesArrId].edit.descr = false
-        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        notes[notesArrId].edit.descr = false
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.$store.dispatch('getNotes', notes)
         this.$store.dispatch('setSelectedNote', notesArrId)
       } else if (this.selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newTitle = this.notes[notesArrId].title
-        this.notes[this.selectedNote].edit.descr = false
-        this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
-          .title
+        notes[this.selectedNote].newTitle = this.notes[notesArrId].title
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.descr = false
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit.title
+        this.$store.dispatch('getNotes', notes)
       } else if (this.selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newTitle = ''
-        this.notes[this.selectedNote].newDescr = ''
-        this.notes[this.selectedNote].edit.title = false
-        this.notes[this.selectedNote].edit.descr = false
-        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        notes[this.selectedNote].newTitle = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].newDescr = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.title = false
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.descr = false
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.$store.dispatch('getNotes', notes)
         this.$store.dispatch('setSelectedNote', notesArrId)
       }
     },
@@ -369,14 +296,18 @@ export default {
     escTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
       let message = ''
+      let notes = this.notes
 
       this.$store.dispatch('setMessage', message)
-      this.notes[notesArrId].newTitle = ''
-      this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+      notes[notesArrId].newTitle = ''
+      this.$store.dispatch('getNotes', notes)
+      notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+      this.$store.dispatch('getNotes', notes)
     },
 
     enterTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
       if (this.notes[notesArrId].newTitle === '') {
         let message = 'Title can`t be blank!'
@@ -386,15 +317,20 @@ export default {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[notesArrId].title = this.notes[notesArrId].newTitle
-        this.notes[notesArrId].newTitle = ''
-        this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
-        this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        notes[notesArrId].title = this.notes[notesArrId].newTitle
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].newTitle = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].date = new Date(Date.now()).toLocaleString()
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
+        this.$store.dispatch('getNotes', notes)
       }
     },
 
     editDescr(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
       this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
 
@@ -402,26 +338,35 @@ export default {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[notesArrId].edit.title = false
-        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        notes[notesArrId].edit.title = false
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        this.$store.dispatch('getNotes', notes)
         this.$store.dispatch('setSelectedNote', notesArrId)
       } else if (this.selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
-        this.notes[this.selectedNote].edit.title = false
-        this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
-          .descr
+        notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.title = false
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit.descr
+        this.$store.dispatch('getNotes', notes)
       } else if (this.selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newDescr = ''
-        this.notes[this.selectedNote].newTitle = ''
-        this.notes[this.selectedNote].edit.descr = false
-        this.notes[this.selectedNote].edit.title = false
-        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        notes[this.selectedNote].newDescr = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].newTitle = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.descr = false
+        this.$store.dispatch('getNotes', notes)
+        notes[this.selectedNote].edit.title = false
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        this.$store.dispatch('getNotes', notes)
         this.$store.dispatch('setSelectedNote', notesArrId)
       }
     },
@@ -429,14 +374,18 @@ export default {
     escDescr(index) {
       let notesArrId = this.findNoteIdInArr(index)
       let message = ''
+      let notes = this.notes
 
       this.$store.dispatch('setMessage', message)
-      this.notes[notesArrId].newDescr = ''
-      this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+      notes[notesArrId].newDescr = ''
+      this.$store.dispatch('getNotes', notes)
+      notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+      this.$store.dispatch('getNotes', notes)
     },
 
     enterDescr(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
       if (
         this.notes[notesArrId].newDescr === '' ||
@@ -445,20 +394,26 @@ export default {
         let message = 'Description can`t be blank!'
 
         this.$store.dispatch('setMessage', message)
-        this.notes[notesArrId].newDescr = ''
+        notes[notesArrId].newDescr = ''
+        this.$store.dispatch('getNotes', notes)
       } else {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[notesArrId].descr = this.notes[notesArrId].newDescr
-        this.notes[notesArrId].newDescr = ''
-        this.notes[notesArrId].date = new Date(Date.now()).toLocaleString()
-        this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        notes[notesArrId].descr = this.notes[notesArrId].newDescr
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].newDescr = ''
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].date = new Date(Date.now()).toLocaleString()
+        this.$store.dispatch('getNotes', notes)
+        notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
+        this.$store.dispatch('getNotes', notes)
       }
     },
 
     clickOutside(index) {
       let clickCounter = this.$store.getters.getClickCounter
+      let notes = this.notes
 
       if (this.$store.getters.getClickCord === index) {
         clickCounter++
@@ -476,8 +431,10 @@ export default {
 
       if (clickCounter === this.notes.length) {
         for (var i = 0; i < this.notes.length; i++) {
-          this.notes[i].edit.title = false
-          this.notes[i].edit.descr = false
+          notes[i].edit.title = false
+          this.$store.dispatch('getNotes', notes)
+          notes[i].edit.descr = false
+          this.$store.dispatch('getNotes', notes)
           let descrHeight = this.$el.querySelectorAll('descr_height')
         }
         let message = ''
@@ -490,20 +447,26 @@ export default {
 
     changeToStandart(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
-      this.notes[notesArrId].radioState = 'standart'
+      notes[notesArrId].radioState = 'standart'
+      this.$store.dispatch('getNotes', notes)
     },
 
     changeToPriority(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
-      this.notes[notesArrId].radioState = 'priority'
+      notes[notesArrId].radioState = 'priority'
+      this.$store.dispatch('getNotes', notes)
     },
 
     changeToImportant(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let notes = this.notes
 
-      this.notes[notesArrId].radioState = 'important'
+      notes[notesArrId].radioState = 'important'
+      this.$store.dispatch('getNotes', notes)
     }
   },
 
