@@ -274,7 +274,7 @@ export default {
     addNote() {
       let { title, descr, radioState } = this.note
       let message = null
-      let idNouteCt = this.$store.getters.getIdNouteCount
+      let idNouteCount = this.idNouteCount
 
       if (title.trim() === '') {
         let message = 'Title can`t be blank!'
@@ -297,7 +297,7 @@ export default {
         descr,
         newDescr: '',
         date: new Date(Date.now()).toLocaleString(),
-        idNote: idNouteCt,
+        idNote: this.idNouteCount,
         radioState,
         edit: {
           title: false,
@@ -310,10 +310,10 @@ export default {
       this.note.newDescr = ''
       this.note.radioState = ''
 
-      idNouteCt++
+      idNouteCount++
 
       this.$store.dispatch('setMessage', message)
-      this.$store.dispatch('setIdNouteCount', idNouteCt)
+      this.$store.dispatch('setIdNouteCount', idNouteCount)
     },
 
     findNoteIdInArr(index) {
