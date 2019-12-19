@@ -4,6 +4,7 @@ function resize() {
 }
 export const setResizeListeners = ($el, query) => {
   const targets = $el.querySelectorAll(query)
+
   targets.forEach(target => {
     target.style.height = `${target.parentElement.clientHeight}px`
     target.addEventListener('input', resize)

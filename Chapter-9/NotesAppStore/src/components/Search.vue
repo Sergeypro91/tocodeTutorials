@@ -20,6 +20,7 @@
         </svg>
       </div>
     </div>
+
     <!-- Search input -->
     <input type="text" :placeholder="placeholder" v-model="search" v-focus />
   </div>
@@ -37,9 +38,11 @@ export default {
       default: 'Search'
     }
   },
+
   data() {
     return { search: this.value }
   },
+
   watch: {
     search(val) {
       // console.log(val)
