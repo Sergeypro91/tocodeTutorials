@@ -214,10 +214,14 @@ export default {
   },
 
   created() {
-    this.title = this.$store.getters.getTitle
+    this.title
   },
 
   computed: {
+    title() {
+      return this.$store.getters.getTitle
+    },
+
     message() {
       return this.$store.getters.getMessage
     },
@@ -228,6 +232,18 @@ export default {
 
     search() {
       return this.$store.getters.getSearch
+    },
+
+    idNouteCount() {
+      return this.$store.getters.getIdNouteCount
+    },
+
+    clickCounter() {
+      return this.$store.getters.getClickCounter
+    },
+
+    selectedNote() {
+      return this.$store.getters.getSelectedNote
     },
 
     notesFilter() {
@@ -326,36 +342,34 @@ export default {
 
     editTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
-      let selectedNote = this.$store.getters.getSelectedNote
 
       this.notes[notesArrId].newTitle = this.notes[notesArrId].title
 
-      if (selectedNote === '') {
+      if (this.selectedNote === '') {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        selectedNote = notesArrId
-        this.$store.dispatch('setSelectedNote', selectedNote)
-      } else if (selectedNote === notesArrId) {
+        this.$store.dispatch('setSelectedNote', notesArrId)
+      } else if (this.selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[selectedNote].newTitle = this.notes[notesArrId].title
-        this.notes[selectedNote].edit.descr = false
-        this.notes[selectedNote].edit.title = !this.notes[notesArrId].edit.title
-      } else if (selectedNote >= 0) {
+        this.notes[this.selectedNote].newTitle = this.notes[notesArrId].title
+        this.notes[this.selectedNote].edit.descr = false
+        this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
+          .title
+      } else if (this.selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[selectedNote].newTitle = ''
-        this.notes[selectedNote].newDescr = ''
-        this.notes[selectedNote].edit.title = false
-        this.notes[selectedNote].edit.descr = false
+        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].edit.title = false
+        this.notes[this.selectedNote].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        selectedNote = notesArrId
-        this.$store.dispatch('setSelectedNote', selectedNote)
+        this.$store.dispatch('setSelectedNote', notesArrId)
       }
     },
 
@@ -388,36 +402,34 @@ export default {
 
     editDescr(index) {
       let notesArrId = this.findNoteIdInArr(index)
-      let selectedNote = this.$store.getters.getSelectedNote
 
       this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
 
-      if (selectedNote === '') {
+      if (this.selectedNote === '') {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].edit.title = false
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
-        selectedNote = notesArrId
-        this.$store.dispatch('setSelectedNote', selectedNote)
-      } else if (selectedNote === notesArrId) {
+        this.$store.dispatch('setSelectedNote', notesArrId)
+      } else if (this.selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[selectedNote].newDescr = this.notes[notesArrId].descr
-        this.notes[selectedNote].edit.title = false
-        this.notes[selectedNote].edit.descr = !this.notes[notesArrId].edit.descr
-      } else if (selectedNote >= 0) {
+        this.notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
+        this.notes[this.selectedNote].edit.title = false
+        this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
+          .descr
+      } else if (this.selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[selectedNote].newDescr = ''
-        this.notes[selectedNote].newTitle = ''
-        this.notes[selectedNote].edit.descr = false
-        this.notes[selectedNote].edit.title = false
+        this.notes[this.selectedNote].newDescr = ''
+        this.notes[this.selectedNote].newTitle = ''
+        this.notes[this.selectedNote].edit.descr = false
+        this.notes[this.selectedNote].edit.title = false
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
-        selectedNote = notesArrId
-        this.$store.dispatch('setSelectedNote', selectedNote)
+        this.$store.dispatch('setSelectedNote', notesArrId)
       }
     },
 
@@ -454,7 +466,6 @@ export default {
 
     clickOutside(index) {
       let clickCounter = this.$store.getters.getClickCounter
-      let selectedNote = this.$store.getters.getSelectedNote
 
       if (this.$store.getters.getClickCord === index) {
         clickCounter++
@@ -477,9 +488,9 @@ export default {
           let descrHeight = this.$el.querySelectorAll('descr_height')
         }
         let message = ''
+        let selectedNote = ''
 
         this.$store.dispatch('setMessage', message)
-        selectedNote = ''
         this.$store.dispatch('setSelectedNote', selectedNote)
       }
     },
