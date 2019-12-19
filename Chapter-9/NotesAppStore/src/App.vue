@@ -235,25 +235,21 @@ export default {
     notesFilter() {
       let array = this.notes
       let search = this.$store.getters.getSearch
-      let noteCounter = 0
 
       if (!search) return array
 
-      //Small
+      // Small
       search = search.trim().toLowerCase()
 
-      //Filter
+      // Filter
       array = array.filter(function(item) {
         if (
           item.title.toLowerCase().indexOf(search) !== -1 ||
           item.descr.toLowerCase().indexOf(search) !== -1
         ) {
-          noteCounter++
           return item
         }
       })
-
-      this.notesCounter = 0
 
       // Error
       return array
@@ -309,7 +305,6 @@ export default {
     findNoteIdInArr(index) {
       let notesArrId = this.notes.findIndex(obj => obj.idNote == index)
 
-      console.log(notesArrId)
       return notesArrId
     },
 
@@ -333,8 +328,6 @@ export default {
 
     editTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
-
-      console.log(notesArrId)
 
       this.notes[notesArrId].newTitle = this.notes[notesArrId].title
 
@@ -377,8 +370,6 @@ export default {
 
     enterTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
-
-      console.log(notesArrId)
 
       if (this.notes[notesArrId].newTitle === '') {
         let message = 'Title can`t be blank!'
@@ -474,10 +465,7 @@ export default {
         this.$store.dispatch('setClickCounter', clickCounter)
       }
 
-      if (
-        clickCounter === this.notes.length ||
-        clickCounter === this.notesCounter
-      ) {
+      if (clickCounter === this.notes.length) {
         for (var i = 0; i < this.notes.length; i++) {
           this.notes[i].edit.title = false
           this.notes[i].edit.descr = false
