@@ -6,7 +6,8 @@ export default {
     search: '',
     idNouteCount: 6,
     clickCord: '',
-    clickCounter: ''
+    clickCounter: '',
+    selectedNote: ''
   },
 
   mutations: {
@@ -32,6 +33,10 @@ export default {
 
     setClickCounter(state, payload) {
       state.clickCounter = payload
+    },
+
+    setSelectedNote(state, payload) {
+      state.selectedNote = payload
     }
   },
 
@@ -58,6 +63,10 @@ export default {
 
     setClickCounter({ commit }, payload) {
       commit('setClickCounter', payload)
+    },
+
+    setSelectedNote({ commit }, payload) {
+      commit('setSelectedNote', payload)
     }
   },
 
@@ -88,6 +97,10 @@ export default {
 
     getClickCounter(state) {
       return state.clickCounter
+    },
+
+    getSelectedNote(state) {
+      return state.selectedNote
     }
   }
 }

@@ -110,8 +110,6 @@ export default {
 
   data() {
     return {
-      selectedNote: '',
-      notesCounter: 0,
       note: {
         title: '',
         newTitle: '',
@@ -328,34 +326,36 @@ export default {
 
     editTitle(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let selectedNote = this.$store.getters.getSelectedNote
 
       this.notes[notesArrId].newTitle = this.notes[notesArrId].title
 
-      if (this.selectedNote === '') {
+      if (selectedNote === '') {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        this.selectedNote = notesArrId
-      } else if (this.selectedNote === notesArrId) {
+        selectedNote = notesArrId
+        this.$store.dispatch('setSelectedNote', selectedNote)
+      } else if (selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newTitle = this.notes[notesArrId].title
-        this.notes[this.selectedNote].edit.descr = false
-        this.notes[this.selectedNote].edit.title = !this.notes[notesArrId].edit
-          .title
-      } else if (this.selectedNote >= 0) {
+        this.notes[selectedNote].newTitle = this.notes[notesArrId].title
+        this.notes[selectedNote].edit.descr = false
+        this.notes[selectedNote].edit.title = !this.notes[notesArrId].edit.title
+      } else if (selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newTitle = ''
-        this.notes[this.selectedNote].newDescr = ''
-        this.notes[this.selectedNote].edit.title = false
-        this.notes[this.selectedNote].edit.descr = false
+        this.notes[selectedNote].newTitle = ''
+        this.notes[selectedNote].newDescr = ''
+        this.notes[selectedNote].edit.title = false
+        this.notes[selectedNote].edit.descr = false
         this.notes[notesArrId].edit.title = !this.notes[notesArrId].edit.title
-        this.selectedNote = notesArrId
+        selectedNote = notesArrId
+        this.$store.dispatch('setSelectedNote', selectedNote)
       }
     },
 
@@ -388,34 +388,36 @@ export default {
 
     editDescr(index) {
       let notesArrId = this.findNoteIdInArr(index)
+      let selectedNote = this.$store.getters.getSelectedNote
 
       this.notes[notesArrId].newDescr = this.notes[notesArrId].descr
 
-      if (this.selectedNote === '') {
+      if (selectedNote === '') {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].edit.title = false
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
-        this.selectedNote = notesArrId
-      } else if (this.selectedNote === notesArrId) {
+        selectedNote = notesArrId
+        this.$store.dispatch('setSelectedNote', selectedNote)
+      } else if (selectedNote === notesArrId) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newDescr = this.notes[notesArrId].descr
-        this.notes[this.selectedNote].edit.title = false
-        this.notes[this.selectedNote].edit.descr = !this.notes[notesArrId].edit
-          .descr
-      } else if (this.selectedNote >= 0) {
+        this.notes[selectedNote].newDescr = this.notes[notesArrId].descr
+        this.notes[selectedNote].edit.title = false
+        this.notes[selectedNote].edit.descr = !this.notes[notesArrId].edit.descr
+      } else if (selectedNote >= 0) {
         let message = ''
 
         this.$store.dispatch('setMessage', message)
-        this.notes[this.selectedNote].newDescr = ''
-        this.notes[this.selectedNote].newTitle = ''
-        this.notes[this.selectedNote].edit.descr = false
-        this.notes[this.selectedNote].edit.title = false
+        this.notes[selectedNote].newDescr = ''
+        this.notes[selectedNote].newTitle = ''
+        this.notes[selectedNote].edit.descr = false
+        this.notes[selectedNote].edit.title = false
         this.notes[notesArrId].edit.descr = !this.notes[notesArrId].edit.descr
-        this.selectedNote = notesArrId
+        selectedNote = notesArrId
+        this.$store.dispatch('setSelectedNote', selectedNote)
       }
     },
 
@@ -435,7 +437,9 @@ export default {
         this.notes[notesArrId].newDescr === '' ||
         this.notes[notesArrId].newDescr === '\n'
       ) {
-        this.message = 'Description can`t be blank!'
+        let message = 'Description can`t be blank!'
+
+        this.$store.dispatch('setMessage', message)
         this.notes[notesArrId].newDescr = ''
       } else {
         let message = ''
@@ -450,6 +454,7 @@ export default {
 
     clickOutside(index) {
       let clickCounter = this.$store.getters.getClickCounter
+      let selectedNote = this.$store.getters.getSelectedNote
 
       if (this.$store.getters.getClickCord === index) {
         clickCounter++
@@ -471,8 +476,11 @@ export default {
           this.notes[i].edit.descr = false
           let descrHeight = this.$el.querySelectorAll('descr_height')
         }
+        let message = ''
 
-        this.selectedNote = ''
+        this.$store.dispatch('setMessage', message)
+        selectedNote = ''
+        this.$store.dispatch('setSelectedNote', selectedNote)
       }
     },
 
