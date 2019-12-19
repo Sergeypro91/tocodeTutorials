@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-
 import './directives/focus.js'
 import './assets/scss/main.scss'
 import store from './store'
