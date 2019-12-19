@@ -7,7 +7,18 @@ export default {
     idNouteCount: 6,
     clickCord: '',
     clickCounter: '',
-    selectedNote: ''
+    selectedNote: '',
+    note: {
+      title: '',
+      newTitle: '',
+      descr: '',
+      radioState: '',
+      prioritys: [
+        { prioritysType: 'standart' },
+        { prioritysType: 'priority' },
+        { prioritysType: 'important' }
+      ]
+    }
   },
 
   mutations: {
@@ -37,6 +48,10 @@ export default {
 
     setSelectedNote(state, payload) {
       state.selectedNote = payload
+    },
+
+    setNote(state, payload) {
+      state.note = payload
     }
   },
 
@@ -67,6 +82,10 @@ export default {
 
     setSelectedNote({ commit }, payload) {
       commit('setSelectedNote', payload)
+    },
+
+    setNote({ commit }, payload) {
+      commit('setNote', payload)
     }
   },
 
@@ -101,6 +120,10 @@ export default {
 
     getSelectedNote(state) {
       return state.selectedNote
+    },
+
+    getNote(state) {
+      return state.note
     }
   }
 }

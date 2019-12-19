@@ -110,17 +110,6 @@ export default {
 
   data() {
     return {
-      note: {
-        title: '',
-        newTitle: '',
-        descr: '',
-        radioState: '',
-        prioritys: [
-          { prioritysType: 'standart' },
-          { prioritysType: 'priority' },
-          { prioritysType: 'important' }
-        ]
-      },
       notes: [
         {
           title: 'Firs Note',
@@ -244,6 +233,10 @@ export default {
 
     selectedNote() {
       return this.$store.getters.getSelectedNote
+    },
+
+    note() {
+      return this.$store.getters.getNote
     },
 
     notesFilter() {
