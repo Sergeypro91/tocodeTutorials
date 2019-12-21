@@ -26,7 +26,9 @@
         <!-- User -->
         <div v-if="user" class="user__wrapper">
           <div class="user-avatar">
-            <img :src="user.avatar_url" alt="user" />
+            <a target="_black" :href="user.html_url">
+              <img :src="user.avatar_url" alt="user" />
+            </a>
           </div>
           <div class="user-info">
             <h1>{{ user.name }}</h1>

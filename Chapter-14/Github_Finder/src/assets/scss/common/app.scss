@@ -10,7 +10,9 @@ textarea {
 input:hover,
 :focus,
 textarea:hover,
-:focus {
+:focus,
+.user-avatar a:focus,
+.user-avatar a:hover {
   border: $primary-color solid 1px;
   box-shadow: 0 6px 28px -4px rgba(0, 0, 0, 0.12);
   transition-delay: 0s !important;
@@ -55,7 +57,13 @@ button {
   max-width: 125px;
   width: 100%;
   flex: 1;
-  & img {
+  a {
+    display: flex;
+    border: 1px solid #fff;
+    transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    border-radius: 50%;
+  }
+  img {
     border-radius: 50%;
   }
 }
