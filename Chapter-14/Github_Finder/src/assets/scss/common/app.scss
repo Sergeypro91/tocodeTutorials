@@ -1,0 +1,17 @@
+p {
+  word-break: break-word;
+}
+
+input,
+textarea {
+  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+input:hover,
+:focus,
+textarea:hover,
+:focus {
+  border: $primary-color solid 1px;
+  box-shadow: 0 6px 28px -4px rgba(0, 0, 0, 0.12);
+  transition-delay: 0s !important;
+}
