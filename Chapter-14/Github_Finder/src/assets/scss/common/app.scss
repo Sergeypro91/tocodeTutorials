@@ -15,3 +15,75 @@ textarea:hover,
   box-shadow: 0 6px 28px -4px rgba(0, 0, 0, 0.12);
   transition-delay: 0s !important;
 }
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  margin-top: 20px !important;
+}
+
+.repos__wrapper {
+  width: 400px;
+  margin: 30px 0;
+}
+
+.repos-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.error {
+  margin-top: 20px;
+}
+
+.user__wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin-top: 40px;
+}
+
+.user-avatar {
+  max-width: 125px;
+  width: 100%;
+  flex: 1;
+  & img {
+    border-radius: 50%;
+  }
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  flex: 2;
+  h1 {
+    color: $neutral-primary;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  span {
+    font-size: 14px;
+    color: $neutral-secondary;
+    margin-bottom: 20px;
+  }
+}
+
+.user-detail_info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: row;
+  color: $neutral-regular;
+  p:nth-child(odd) {
+    margin-right: 10px;
+  }
+}

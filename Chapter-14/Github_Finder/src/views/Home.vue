@@ -23,6 +23,23 @@
           Search again!
         </button>
 
+        <!-- User -->
+        <div v-if="user" class="user__wrapper">
+          <div class="user-avatar">
+            <img :src="user.avatar_url" alt="user" />
+          </div>
+          <div class="user-info">
+            <h1>{{ user.name }}</h1>
+            <span>Registration at: {{ userReg }}</span>
+            <div class="user-detail_info">
+              <p>Repositories: {{ user.public_repos }}</p>
+              <p>Stars: {{ userStarsCount }}</p>
+              <p>Followers: {{ user.followers }}</p>
+              <p>Following: {{ user.following }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Repo list -->
         <div v-if="repos" class="repos__wrapper">
           <!-- Repo item -->
@@ -59,19 +76,35 @@ export default {
     return {
       search: '',
       error: null,
+      user: null,
+      userReg: '',
+      userStarsCount: 0,
       repos: null
     }
   },
 
   methods: {
     getRepos() {
+      this.userStarsCount = 0
+
+      axios.get(`https://api.github.com/users/${this.search}`).then(account => {
+        this.user = account.data
+
+        let regexp = this.user.created_at.match(
+          /(\d{4})\D(\d{2})\D(\d{2})\D(\d{2})\D(\d{2})\D(\d{2})/
+        )
+
+        this.userReg = regexp[3] + '.' + regexp[2] + '.' + regexp[1]
+      })
+
       axios
         .get(`https://api.github.com/users/${this.search}/repos`)
         .then(res => {
-          console.log(res)
-
           this.repos = res.data
           this.error = null
+          this.repos.findIndex(obj => {
+            this.userStarsCount += obj.stargazers_count
+          })
         })
         .catch(err => {
           console.log(err)
@@ -84,32 +117,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-button {
-  margin-top: 40px !important;
-}
-
-.repos__wrapper {
-  width: 400px;
-  margin: 30px 0;
-}
-
-.repos-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #dbdbdb;
-}
-
-.error {
-  margin-top: 20px;
-}
-</style>
+<style lang="scss"></style>
