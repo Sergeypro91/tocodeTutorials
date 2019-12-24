@@ -5,7 +5,9 @@ svg {
 /* Search */
 .wrapper__search {
   position: relative;
-  min-width: 400px;
+  min-width: 300px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .search {

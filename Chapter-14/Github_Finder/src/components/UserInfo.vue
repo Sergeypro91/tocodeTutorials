@@ -1,5 +1,5 @@
 <template>
-  <div v-if="repos" class="wrapper__search">
+  <div v-if="!repos.length == 0" class="wrapper__search">
     <!-- User -->
     <div class="user__wrapper">
       <!-- User avatar-->
@@ -24,15 +24,65 @@
 
     <!-- Repo list -->
     <div class="repos__wrapper">
-      <!-- Repo item -->
-      <div v-for="repo in repos" :key="repo.id" class="repo-item">
-        <div class="repos-info">
-          <a class="link" target="_black" :href="repo.html_url">{{
-            repo.name
-          }}</a>
-          <span>{{ repo.stargazers_count }} ⭐</span>
+      <!-- Repo sort -->
+      <div class="repo-sort">
+        <p>Sort by:</p>
+        <div class="repo-sor__group">
+          <span @click="sort('name')">Name &#8595;</span>
+          <span @click="sort('stargazers_count')">Stars &#8595;</span>
         </div>
       </div>
+
+      <!-- Repo item -->
+      <div v-for="repo in reposSort" :key="repo.id" class="repo-item">
+        <a class="link" target="_black" :href="repo.html_url">
+          <div class="repos-info">
+            <p>{{ repo.name }}</p>
+            <span>{{ repo.stargazers_count }} ⭐</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Button -->
+      <section>
+        <div class="container">
+          <div class="button-list">
+            <div class="btn btnPrimary" @click="prevPage">&#8592;</div>
+
+            <!-- Number repos page -->
+            <div class="reposNumberPage">
+              <span
+                v-if="
+                  !(
+                    pageCount[0] === pageCount[page.current - 2] ||
+                    pageCount[0] === pageCount[page.current - 1]
+                  )
+                "
+              >{{ pageCount[0] }}</span>
+              <span
+                v-if="
+                  !(pageCount[page.current - 2] === pageCount[page.current - 1])
+                "
+              >{{ pageCount[page.current - 2] }}</span>
+              <span class="current-page">
+                {{
+                pageCount[page.current - 1]
+                }}
+              </span>
+              <span
+                v-if="
+                  !(pageCount[page.current] === pageCount[page.current - 1])
+                "
+              >{{ pageCount[page.current] }}</span>
+              <span
+                v-if="!(pageCount[page.current + 1] === pageCount.length)"
+              >{{ pageCount.length }}</span>
+            </div>
+
+            <div class="btn btnPrimary" @click="nextPage">&#8594;</div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -54,7 +104,33 @@ export default {
     },
     repos: {
       type: Array,
-      required: false
+      required: true
+    },
+    reposSort: {
+      type: Array,
+      required: true
+    },
+    pageCount: {
+      type: Array,
+      required: true
+    },
+    page: {
+      type: Object,
+      required: true
+    }
+  },
+
+  methods: {
+    sort(index) {
+      this.$emit('sort', index)
+    },
+
+    prevPage() {
+      this.$emit('prevPage')
+    },
+
+    nextPage() {
+      this.$emit('nextPage')
     }
   }
 }

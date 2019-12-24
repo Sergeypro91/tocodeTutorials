@@ -28,7 +28,6 @@
         </table>
         <div style="text-align: center;">
           <span>debug: sort: {{ currentSort }}, dir: {{ currentSortDir }}</span>
-          // eslint-disable-next-line vue/this-in-template
           <p>page: {{ this.page.current }}, length: {{ this.page.length }}</p>
         </div>
       </div>

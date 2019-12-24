@@ -3,11 +3,7 @@
     <section>
       <div class="container">
         <!-- Search components -->
-        <search
-          :value="search"
-          placeholder="Type username"
-          @search="searching"
-        />
+        <search :value="search" placeholder="Type username" @search="searching" />
 
         <!-- Error -->
         <div v-if="error" class="error">
@@ -15,12 +11,8 @@
         </div>
 
         <!-- Search button -->
-        <button v-if="!repos" class="btn btnPrimary" @click="getRepos">
-          Search
-        </button>
-        <button v-else class="btn btnPrimary" @click="getRepos">
-          Search again!
-        </button>
+        <button v-if="!repos.length == 0" class="btn btnPrimary" @click="getRepos">Search</button>
+        <button v-else class="btn btnPrimary" @click="getRepos">Search again!</button>
 
         <!-- User components -->
         <user
@@ -28,6 +20,12 @@
           :user-reg="userReg"
           :user-stars-count="userStarsCount"
           :repos="repos"
+          :repos-sort="reposSort"
+          :page="page"
+          :page-count="pageCount"
+          @sort="sort"
+          @prevPage="prevPage"
+          @nextPage="nextPage"
         />
       </div>
     </section>
@@ -47,6 +45,18 @@ export default {
       inserted: function(el) {
         el.focus()
       }
+    }
+  },
+
+  data() {
+    return {
+      currentSort: 'name',
+      currentSortDir: 'asc',
+      page: {
+        current: 1,
+        length: 5
+      },
+      pageCount: []
     }
   },
 
@@ -73,6 +83,23 @@ export default {
 
     repos() {
       return this.$store.getters.getRepos
+    },
+
+    reposSort() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.repos
+        .sort((a, b) => {
+          let mod = 1
+          if (this.currentSortDir === 'desc') mod = -1
+          if (a[this.currentSort] < b[this.currentSort]) return -1 * mod
+          if (a[this.currentSort] > b[this.currentSort]) return 1 * mod
+          return 0
+        })
+        .filter((row, index) => {
+          let start = (this.page.current - 1) * this.page.length
+          let end = this.page.current * this.page.length
+          if (index >= start && index < end) return true
+        })
     }
   },
 
@@ -81,8 +108,25 @@ export default {
       this.$store.dispatch('setSearch', data)
     },
 
+    sort(e) {
+      if (e === this.currentSort) {
+        this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
+      }
+      this.currentSort = e
+    },
+
+    // Pagination
+    prevPage() {
+      if (this.page.current > 1) this.page.current -= 1
+    },
+    nextPage() {
+      if (this.page.current * this.page.length < this.repos.length)
+        this.page.current += 1
+    },
+
     getRepos() {
       let userStarsCount = 0
+      this.pageCount = []
 
       this.$store.dispatch('setUserStarsCount', userStarsCount)
 
@@ -101,7 +145,9 @@ export default {
       })
 
       axios
-        .get(`https://api.github.com/users/${this.search}/repos`)
+        .get(
+          `https://api.github.com/users/${this.search}/repos?page=1&per_page=1000`
+        )
         .then(res => {
           let error = null
           let repos = res.data
@@ -114,11 +160,22 @@ export default {
             this.$store.dispatch('setUserStarsCount', userStarsCount)
           })
           this.$store.dispatch('setRepos', repos)
+
+          let reposPage = this.repos.length / this.page.length
+
+          for (let i = 1; i <= Math.ceil(reposPage); i++) {
+            this.pageCount.push(i)
+          }
+
+          this.page.second = this.page.current - 1
+          this.page.last = this.page.length
+
+          console.log(this.reposPage)
         })
         .catch(err => {
           console.log(err)
           let error = 'Can`t find this User'
-          let repos = null
+          let repos = []
 
           this.$store.dispatch('setRepos', repos)
           this.$store.dispatch('setError', error)

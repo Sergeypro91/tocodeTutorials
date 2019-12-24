@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 // Pages
 import Home from '@/views/Home.vue'
 import NotFound from '@/views/404'
-import Notify from '@/views/Notify'
+import Users from '@/views/Users'
 
 Vue.use(VueRouter)
 
@@ -14,9 +14,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/notify',
-    name: 'notify',
-    component: Notify
+    path: '/users',
+    name: 'users',
+    component: Users
   },
   {
     path: '*',

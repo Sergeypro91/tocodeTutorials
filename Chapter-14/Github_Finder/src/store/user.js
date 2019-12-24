@@ -4,7 +4,7 @@ export default {
     user: {},
     userReg: '',
     userStarsCount: 0,
-    repos: null
+    repos: []
   },
 
   mutations: {
