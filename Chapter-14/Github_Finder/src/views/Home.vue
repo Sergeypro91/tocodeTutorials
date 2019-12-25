@@ -3,11 +3,7 @@
     <section>
       <div class="container">
         <!-- Search components -->
-        <search
-          :value="search"
-          placeholder="Type username"
-          @search="searching"
-        />
+        <search :value="search" placeholder="Type username" @search="searching" />
 
         <!-- Error -->
         <div v-if="error" class="error">
@@ -15,16 +11,8 @@
         </div>
 
         <!-- Search button -->
-        <button
-          v-if="pageCount.length == 0"
-          class="btn btnPrimary"
-          @click="getRepos"
-        >
-          Search
-        </button>
-        <button v-else class="btn btnPrimary" @click="getRepos">
-          Search again!
-        </button>
+        <button v-if="pageCount.length == 0" class="btn btnPrimary" @click="getRepos">Search</button>
+        <button v-else class="btn btnPrimary" @click="getRepos">Search again!</button>
 
         <!-- User components -->
         <user
@@ -125,8 +113,6 @@ export default {
         this.$store.dispatch('setPageCount', array)
       }
 
-      console.log(this.$store.getters.getPageCount.length)
-
       return this.$store.getters.getPageCount
     }
   },
@@ -167,8 +153,9 @@ export default {
 
     getRepos() {
       let userStarsCount = 0
-      this.pageCount = []
+      let pageCount = []
 
+      this.$store.dispatch('setPageCount', pageCount)
       this.$store.dispatch('setUserStarsCount', userStarsCount)
 
       axios.get(`https://api.github.com/users/${this.search}`).then(account => {
