@@ -4,7 +4,8 @@ export default {
     user: {},
     userReg: '',
     userStarsCount: 0,
-    repos: []
+    repos: [],
+    pageCount: []
   },
 
   mutations: {
@@ -26,6 +27,10 @@ export default {
 
     setRepos(state, payload) {
       state.repos = payload
+    },
+
+    setPageCount(state, payload) {
+      state.pageCount = payload
     }
   },
 
@@ -48,6 +53,10 @@ export default {
 
     setRepos({ commit }, payload) {
       commit('setRepos', payload)
+    },
+
+    setPageCount({ commit }, payload) {
+      commit('setPageCount', payload)
     }
   },
 
@@ -70,6 +79,10 @@ export default {
 
     getRepos(state) {
       return state.repos
+    },
+
+    getPageCount(state) {
+      return state.pageCount
     }
   }
 }

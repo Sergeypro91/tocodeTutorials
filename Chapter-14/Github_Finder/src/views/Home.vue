@@ -3,7 +3,11 @@
     <section>
       <div class="container">
         <!-- Search components -->
-        <search :value="search" placeholder="Type username" @search="searching" />
+        <search
+          :value="search"
+          placeholder="Type username"
+          @search="searching"
+        />
 
         <!-- Error -->
         <div v-if="error" class="error">
@@ -11,8 +15,16 @@
         </div>
 
         <!-- Search button -->
-        <button v-if="!repos.length == 0" class="btn btnPrimary" @click="getRepos">Search</button>
-        <button v-else class="btn btnPrimary" @click="getRepos">Search again!</button>
+        <button
+          v-if="pageCount.length == 0"
+          class="btn btnPrimary"
+          @click="getRepos"
+        >
+          Search
+        </button>
+        <button v-else class="btn btnPrimary" @click="getRepos">
+          Search again!
+        </button>
 
         <!-- User components -->
         <user
@@ -24,8 +36,11 @@
           :page="page"
           :page-count="pageCount"
           @sort="sort"
+          @loadMore="loadMore"
+          @firstPage="firstPage"
           @prevPage="prevPage"
           @nextPage="nextPage"
+          @lastPage="lastPage"
         />
       </div>
     </section>
@@ -55,8 +70,7 @@ export default {
       page: {
         current: 1,
         length: 5
-      },
-      pageCount: []
+      }
     }
   },
 
@@ -100,6 +114,20 @@ export default {
           let end = this.page.current * this.page.length
           if (index >= start && index < end) return true
         })
+    },
+
+    pageCount() {
+      let reposPage = this.repos.length / this.page.length
+      let array = []
+
+      for (let i = 1; i <= Math.ceil(reposPage); i++) {
+        array.push(i)
+        this.$store.dispatch('setPageCount', array)
+      }
+
+      console.log(this.$store.getters.getPageCount.length)
+
+      return this.$store.getters.getPageCount
     }
   },
 
@@ -115,13 +143,26 @@ export default {
       this.currentSort = e
     },
 
+    // loadMore
+    loadMore() {
+      this.page.length += 5
+      this.page.current = Math.ceil(this.page.current / 2)
+    },
+
     // Pagination
+    firstPage() {
+      if (this.page.current > 1) this.page.current = 1
+    },
     prevPage() {
       if (this.page.current > 1) this.page.current -= 1
     },
     nextPage() {
       if (this.page.current * this.page.length < this.repos.length)
         this.page.current += 1
+    },
+    lastPage() {
+      if (this.page.current * this.page.length < this.repos.length)
+        this.page.current = this.pageCount.length
     },
 
     getRepos() {
@@ -160,17 +201,6 @@ export default {
             this.$store.dispatch('setUserStarsCount', userStarsCount)
           })
           this.$store.dispatch('setRepos', repos)
-
-          let reposPage = this.repos.length / this.page.length
-
-          for (let i = 1; i <= Math.ceil(reposPage); i++) {
-            this.pageCount.push(i)
-          }
-
-          this.page.second = this.page.current - 1
-          this.page.last = this.page.length
-
-          console.log(this.reposPage)
         })
         .catch(err => {
           console.log(err)

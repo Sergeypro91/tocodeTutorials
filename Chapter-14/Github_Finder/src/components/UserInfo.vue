@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!repos.length == 0" class="wrapper__search">
+  <div v-if="!repos.length == 0" class="user-block">
     <!-- User -->
     <div class="user__wrapper">
       <!-- User avatar-->
@@ -42,47 +42,66 @@
           </div>
         </a>
       </div>
+    </div>
 
-      <!-- Button -->
-      <section>
-        <div class="container">
-          <div class="button-list">
-            <div class="btn btnPrimary" @click="prevPage">&#8592;</div>
+    <!-- Pagination wrapper -->
+    <div v-if="pageCount.length > 1" class="pagination__wrapper">
+      <!-- Load more -->
+      <button class="btn btnPrimary" @click="loadMore">
+        Load more
+      </button>
 
-            <!-- Number repos page -->
-            <div class="reposNumberPage">
-              <span
-                v-if="
-                  !(
-                    pageCount[0] === pageCount[page.current - 2] ||
-                    pageCount[0] === pageCount[page.current - 1]
-                  )
-                "
-              >{{ pageCount[0] }}</span>
-              <span
-                v-if="
-                  !(pageCount[page.current - 2] === pageCount[page.current - 1])
-                "
-              >{{ pageCount[page.current - 2] }}</span>
-              <span class="current-page">
-                {{
-                pageCount[page.current - 1]
-                }}
-              </span>
-              <span
-                v-if="
-                  !(pageCount[page.current] === pageCount[page.current - 1])
-                "
-              >{{ pageCount[page.current] }}</span>
-              <span
-                v-if="!(pageCount[page.current + 1] === pageCount.length)"
-              >{{ pageCount.length }}</span>
-            </div>
+      <!-- Pagination -->
+      <div class="container">
+        <div class="button-list">
+          <div class="btn btnPrimary" @click="prevPage">&#8592;</div>
 
-            <div class="btn btnPrimary" @click="nextPage">&#8594;</div>
+          <!-- Number repos page -->
+          <div class="reposNumberPage">
+            <span
+              v-if="!(pageCount[0] === pageCount[page.current - 1])"
+              @click="firstPage"
+              >{{ pageCount[0] }}</span
+            >
+            <span
+              v-if="
+                !(
+                  pageCount[0] === pageCount[page.current - 1] ||
+                  pageCount[page.current - 2] === pageCount[0]
+                )
+              "
+              @click="prevPage"
+              >{{ pageCount[page.current - 2] }}</span
+            >
+            <span class="current-page">
+              {{ pageCount[page.current - 1] }}
+            </span>
+            <span
+              v-if="
+                !(
+                  pageCount[page.current - 1] ===
+                    pageCount[pageCount.length - 2] ||
+                  pageCount[page.current] === pageCount[pageCount.length]
+                )
+              "
+              @click="nextPage"
+              >{{ pageCount[page.current] }}</span
+            >
+            <span
+              v-if="
+                !(
+                  pageCount[page.current] === pageCount[pageCount.length] ||
+                  pageCount[page.current - 1] === pageCount[pageCount.length]
+                )
+              "
+              @click="lastPage"
+              >{{ pageCount.length }}</span
+            >
           </div>
+
+          <div class="btn btnPrimary" @click="nextPage">&#8594;</div>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -125,12 +144,24 @@ export default {
       this.$emit('sort', index)
     },
 
+    loadMore() {
+      this.$emit('loadMore')
+    },
+
+    firstPage() {
+      this.$emit('firstPage')
+    },
+
     prevPage() {
       this.$emit('prevPage')
     },
 
     nextPage() {
       this.$emit('nextPage')
+    },
+
+    lastPage() {
+      this.$emit('lastPage')
     }
   }
 }
