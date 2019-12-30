@@ -8,7 +8,7 @@
           aspernatur nesciunt cumque maxime? Asperiores eaque veritatis voluptas
           similique, aut incidunt!
         </p>
-        <intro title="Lorem" />
+        <Intro title="Lorem" />
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
           aspernatur nesciunt cumque maxime? Asperiores eaque veritatis voluptas
@@ -26,13 +26,7 @@
 </template>
 
 <script>
-import intro from '@/components/UI/Intro.vue'
-
-export default {
-  components: {
-    intro
-  }
-}
+export default {}
 </script>
 
 <style lang="scss">

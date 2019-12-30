@@ -2,15 +2,19 @@
   <section class="contact">
     <div class="container">
       <h2 class="title">Contact me!</h2>
+
+      <!-- Message for input -->
+      <Message v-if="message" :message="message" />
+
       <form @submit.prevent="onSubmit" class="contact-form">
-        <label>Name:</label>
-        <input v-model="user.name" type="text" />
+        <!-- Name input -->
+        <AppInput v-model="user.name">Name:</AppInput>
 
-        <label>Email:</label>
-        <input v-model="user.email" type="text" />
+        <!-- Email input -->
+        <AppInput v-model="user.email" type="email">Email:</AppInput>
 
-        <label>Message:</label>
-        <textarea v-model="user.text"></textarea>
+        <!-- Textarea -->
+        <AppTextArea v-model="user.text">Message:</AppTextArea>
 
         <!-- Buttons -->
         <div class="controls">
@@ -22,12 +26,10 @@
 </template>
 
 <script>
-import AppButton from '@/components/UI/Controls/Button.vue'
 export default {
-  components: { AppButton },
-
   data() {
     return {
+      message: null,
       user: {
         name: '',
         email: '',
@@ -38,7 +40,10 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log(this.user)
+      ;(this.message = 'Submited!'),
+        (this.user.name = ''),
+        (this.user.email = ''),
+        (this.user.text = '')
     }
   }
 }

@@ -1,12 +1,14 @@
 <template>
-  <div class="wrapper-content wrapper-content--fixed">
-    <Intro title="My posts: " />
-    <PostsList :posts="posts" />
-  </div>
+  <PostsList :posts="posts" />
 </template>
 
 <script>
+import promo from '@/components/Promo.vue'
+import contacts from '@/components/Contacts.vue'
+
 export default {
+  layout: 'admin',
+
   data() {
     return {
       posts: [
@@ -41,4 +43,4 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style></style>

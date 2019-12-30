@@ -1,12 +1,17 @@
 <template>
   <section class="new-comment">
     <div class="container">
-      <form @submit.prevent="onSubmit" class="contact-form">
-        <label>Name:</label>
-        <input v-model="comment.name" type="text" />
+      <h2 class="title">New Comment:</h2>
 
-        <label>Message:</label>
-        <textarea v-model="comment.text"></textarea>
+      <!-- Message for input -->
+      <Message v-if="message" :message="message" />
+
+      <form @submit.prevent="onSubmit" class="contact-form">
+        <!-- Name input -->
+        <AppInput v-model="comment.name">Name:</AppInput>
+
+        <!-- Textarea -->
+        <AppTextArea v-model="comment.text">Message:</AppTextArea>
 
         <!-- Buttons -->
         <div class="controls">
@@ -18,13 +23,10 @@
 </template>
 
 <script>
-import AppButton from '@/components/UI/Controls/Button.vue'
-
 export default {
-  components: { AppButton },
-
   data() {
     return {
+      message: null,
       comment: {
         name: '',
         text: ''
@@ -34,7 +36,9 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log(this.comment)
+      ;(this.message = 'Success!'),
+        (this.comment.name = ''),
+        (this.comment.text = '')
     }
   }
 }
