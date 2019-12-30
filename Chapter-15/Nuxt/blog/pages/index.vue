@@ -1,5 +1,10 @@
 <template>
-  <PostsList :posts="posts" />
+  <div class="wrapper-content wrapper-content--fixed">
+    <promo />
+    <Intro title="My last posts: " />
+    <PostsList :posts="posts" />
+    <contacts />
+  </div>
 </template>
 
 <script>

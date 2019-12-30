@@ -7,6 +7,9 @@
         <nuxt-link to="/admin/new-post" class="link linkWhite"
           >New post</nuxt-link
         >
+        <nuxt-link to="/admin/comments" class="link linkWhite"
+          >Comments</nuxt-link
+        >
       </Intro>
       <nuxt />
     </div>
@@ -19,7 +22,9 @@ import Header from '@/components/system/Header.vue'
 export default {
   components: {
     Header
-  }
+  },
+
+  middleware: ['auth']
 }
 </script>
 
