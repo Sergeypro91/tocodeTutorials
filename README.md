@@ -1,17 +1,23 @@
 # Tocode Tutorials
 
-## Home worck DZ 1 is here:
-
-### In DZ1 branch
+## Home worck:
 
 ```
-Chapter-4/DZ1
+(./DZ/dz1 "DZ1")
 ```
 
-## Home worck DZ #2 is here:
-
-### In DZ2 branch
+```
+(./DZ/dz2 "DZ2")
+```
 
 ```
-Chapter-6/DZ2
+(./DZ/dz3 "DZ3")
+```
+
+```
+(./DZ/dz4 "DZ4")
+```
+
+```
+(./DZ/dz5 "DZ5")
 ```
