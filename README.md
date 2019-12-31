@@ -3,21 +3,21 @@
 ## Home worck:
 
 ```
-(./DZ/dz1 "DZ1")
+[DZ1](https://github.com/Sergeypro91/tocodeTutorials/tree/master/DZ/dz1)
 ```
 
 ```
-(./DZ/dz2 "DZ2")
+[DZ2](https://github.com/Sergeypro91/tocodeTutorials/tree/master/DZ/dz2)
 ```
 
 ```
-(./DZ/dz3 "DZ3")
+[DZ3](https://github.com/Sergeypro91/tocodeTutorials/tree/master/DZ/dz3)
 ```
 
 ```
-(./DZ/dz4 "DZ4")
+[DZ4](https://github.com/Sergeypro91/tocodeTutorials/tree/master/DZ/dz4)
 ```
 
 ```
-(./DZ/dz5 "DZ5")
+[DZ5](https://github.com/Sergeypro91/tocodeTutorials/tree/master/DZ/dz5)
 ```
