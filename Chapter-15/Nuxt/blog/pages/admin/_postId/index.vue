@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import newPostForm from '@/components/Admin/NewPostForm.vue'
 
 export default {
@@ -10,23 +11,25 @@ export default {
 
   layout: 'admin',
 
-  data() {
-    return {
-      post: {
-        id: 1,
-        title: '1 post',
-        descr: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-        content:
-          'Impedit reprehenderit dolorem, alias voluptatem, excepturi pariatur vel eius tempore iure assumenda incidunt ratione porro cupiditate ipsa officia et nesciunt. Reiciendis qui, deleniti ipsa suscipit perferendis optio, sit ab nesciunt repellendus assumenda unde minima totam accusamus eligendi blanditiis dolorum, mollitia maxime minus.',
-        img: 'https://lawnuk.com/wp-content/uploads/2016/08/sprogs-dogs.jpg'
-      }
-    }
+  asyncData(contex) {
+    return axios
+      .get(
+        `https://tocode-blog-nuxt.firebaseio.com/posts/${contex.params.postId}.json`
+      )
+      .then(res => {
+        return {
+          post: { ...res.data, id: contex.params.postId }
+        }
+      })
+      .catch(e => contex.error(e))
   },
 
   methods: {
     onSubmit(post) {
       console.log('Editing!')
-      console.log(post)
+      this.$store.dispatch('editPost', post).then(() => {
+        this.$router.push('/admin')
+      })
     }
   }
 }
