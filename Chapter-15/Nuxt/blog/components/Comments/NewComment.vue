@@ -24,6 +24,13 @@
 
 <script>
 export default {
+  props: {
+    postId: {
+      type: String,
+      required: true
+    }
+  },
+
   data() {
     return {
       message: null,
@@ -36,9 +43,20 @@ export default {
 
   methods: {
     onSubmit() {
-      ;(this.message = 'Success!'),
-        (this.comment.name = ''),
-        (this.comment.text = '')
+      this.$store
+        .dispatch('addComment', {
+          postId: this.postId,
+          publish: false,
+          ...this.comment
+        })
+        .then(() => {
+          this.message = 'Success!'
+          this.comment.name = ''
+          this.comment.text = ''
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
   }
 }

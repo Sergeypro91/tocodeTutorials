@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export const state = () => ({
-  postsLoaded: []
+  postsLoaded: [],
+  token: null
 })
 
 export const mutations = {
@@ -10,7 +11,6 @@ export const mutations = {
   },
 
   addPost(state, post) {
-    console.log(post)
     state.postsLoaded.push(post)
   },
 
@@ -19,6 +19,14 @@ export const mutations = {
       post => post.id === postEdit.id
     )
     state.postsLoaded[postIndex] = postEdit
+  },
+
+  setToken(state, token) {
+    state.token = token
+  },
+
+  destroyToken(state) {
+    state.token = null
   }
 }
 
@@ -27,7 +35,6 @@ export const actions = {
     return axios
       .get('https://tocode-blog-nuxt.firebaseio.com/posts.json')
       .then(res => {
-        console.log(res)
         const postsArray = []
 
         for (let key in res.data) {
@@ -39,6 +46,28 @@ export const actions = {
       .catch(e => console.log(e))
   },
 
+  authUser({ commit }, authData) {
+    const key = 'AIzaSyCgqffwRmT1V-eTJ74JoFY_wEK4UgTQhJc'
+
+    return axios
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`,
+        {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        }
+      )
+      .then(res => {
+        commit('setToken', res.data.idToken)
+      })
+      .catch(e => console.log(e))
+  },
+
+  logoutUser({ commit }) {
+    commit('destroyToken')
+  },
+
   addPost({ commit }, post) {
     return axios
       .post('https://tocode-blog-nuxt.firebaseio.com/posts.json', post)
@@ -48,15 +77,21 @@ export const actions = {
       .catch(e => console.log(e))
   },
 
-  editPost({ commit }, post) {
+  editPost({ commit, state }, post) {
     return axios
       .put(
-        `https://tocode-blog-nuxt.firebaseio.com/posts/${post.id}.json`,
+        `https://tocode-blog-nuxt.firebaseio.com/posts/${post.id}.json?auth=${state.token}`,
         post
       )
       .then(res => {
         commit('editPost', post)
       })
+      .catch(e => console.log(e))
+  },
+
+  addComment({ commit }, comment) {
+    return axios
+      .post('https://tocode-blog-nuxt.firebaseio.com/comments.json', comment)
       .catch(e => console.log(e))
   }
 }
@@ -64,5 +99,9 @@ export const actions = {
 export const getters = {
   getPostsLoaded(state) {
     return state.postsLoaded
+  },
+
+  checkAuthUser(state) {
+    return state.token != null
   }
 }

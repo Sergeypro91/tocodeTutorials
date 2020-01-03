@@ -2,14 +2,14 @@
   <section>
     <div class="container">
       <table>
-
         <!-- thead -->
         <thead>
-          <tr><th v-for="(th, index) in thead" :key="index">{{ th }}</th></tr>
+          <tr>
+            <th v-for="(th, index) in thead" :key="index">{{ th }}</th>
+          </tr>
         </thead>
         <!-- tbody -->
         <slot name="tbody"> </slot>
-
       </table>
     </div>
   </section>
@@ -44,14 +44,13 @@ table {
   }
   tbody tr {
     background-color: #ffffff;
-    transition: all .25s cubic-bezier(.02,.01,.47,1);
-    box-shadow: 0 16px 16px rgba(0,0,0,.01);
+    transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    box-shadow: 0 16px 16px rgba(0, 0, 0, 0.01);
     &:hover {
-      box-shadow: 0 16px 16px rgba(0,0,0,.02);
-      transform: translate(0,-3px);
+      box-shadow: 0 16px 16px rgba(0, 0, 0, 0.02);
+      transform: translate(0, -3px);
       transition-delay: 0s !important;
     }
   }
 }
 </style>
-
